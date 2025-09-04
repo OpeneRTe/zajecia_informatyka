@@ -447,6 +447,25 @@ Express: https://expressjs.com/
 
 MDN – HTTP i podstawy web: https://developer.mozilla.org/pl/
 
+```mermaid
+  graph TD
+    A[Projekt Node.js]
+    B[NPM install express]
+    C[package.json dependencies]
+    D[node_modules/express]
+    E[server.js require 'express']
+    F[npm run start]
+    G[Działający serwer Express]
+
+    A -->|instalacja| B
+    B -->|zapisuje| C
+    C -->|pobiera| D
+    A -->|pisz kod| E
+    E -->|uruchom| F
+    F -->|startuje| G
+```
+---
+---
 
 # Karta pracy – Node.js i Express (Backend)
 
