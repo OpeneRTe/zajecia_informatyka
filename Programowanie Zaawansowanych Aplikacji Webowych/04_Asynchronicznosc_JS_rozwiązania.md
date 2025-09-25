@@ -1,4 +1,4 @@
-# Rozwiązania dla nauczyciela — Asynchroniczność w JavaScript (Promises, async/await)
+# Zadania i rozwiązania — Asynchroniczność w JavaScript (Promises, async/await)
 
 Poniżej komplet **przykładowych rozwiązań** do zadań z wykładu. Kod jest celowo „edukacyjny”: zawiera komentarze i warianty, które można omawiać na lekcji.
 
