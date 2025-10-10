@@ -109,9 +109,61 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 | **LocalStorage / SessionStorage** | SPA (React, Angular) | Łatwy dostęp | Niebezpieczne przy XSS |
 
 💡 Dobra praktyka:  
-- **Access token** – przechowuj w pamięci aplikacji (np. w zmiennej JS).  
-- **Refresh token** – w cookie httpOnly (niedostępne dla JS).
+- **Access token** – przechowuj w pamięci aplikacji (np. w zmiennej JS) krótkożyjący token (np. ważny 10–15 minut).  
+- **Refresh token** – w cookie httpOnly (niedostępne dla JS), token do odświeżania access tokenu (np. ważny kilka dni).
 
+# 🔐 Access token i Refresh token – gdzie je trzymać?
+
+**Access token** – to krótkożyjący token (np. ważny 10–15 minut)  
+**Refresh token** – to token służący do odświeżania access tokenu (np. ważny kilka dni)
+
+---
+
+## 🔹 Access token – w pamięci aplikacji
+
+Access tokena najlepiej przechowywać **tymczasowo w pamięci aplikacji** (np. w zmiennej JavaScript).  
+Dzięki temu znika po odświeżeniu strony lub zamknięciu przeglądarki.
+
+📘 **Przykład:**
+```js
+let accessToken = null;
+fetch('/auth/login', { ... })
+  .then(res => res.json())
+  .then(data => accessToken = data.accessToken);
+```
+
+✅ **Zaleta:** nie zapisuje się nigdzie w przeglądarce (mniejsze ryzyko kradzieży).  
+❌ **Wada:** trzeba ponownie zalogować się po zamknięciu strony.
+
+---
+
+## 🔹 Refresh token – w ciasteczku httpOnly
+
+Refresh token przechowujemy w **ciasteczku (cookie)**, które ma ustawione specjalne flagi:
+
+- `httpOnly` – dzięki temu **JavaScript nie ma do niego dostępu** (chroni przed XSS)  
+- `secure` – cookie działa tylko po **HTTPS**  
+- `SameSite=Strict` – cookie **nie zostanie wysłane z obcych stron** (chroni przed CSRF)
+
+📘 **Przykład:**
+```js
+res.cookie('refresh', refreshToken, {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'strict'
+});
+```
+
+✅ **Zaleta:** bardzo bezpieczne miejsce na dłuższy token  
+❌ **Wada:** wymaga HTTPS i odpowiedniej konfiguracji serwera
+
+---
+
+## 🧩 Podsumowanie
+
+- 🔸 **Access token** służy do autoryzacji bieżących żądań – działa krótko i jest lekki.  
+- 🔸 **Refresh token** służy do odświeżania sesji – trzymany bezpiecznie w cookie, aby przeglądarka sama go przesyłała, ale JavaScript go nie widział.  
+- 🔸 Połączenie obu zapewnia **bezpieczeństwo i wygodę** – użytkownik nie musi logować się co 10 minut, a atakujący nie może łatwo przejąć tokenu.
 ---
 
 ### 🔹 8. Porównanie: sesje vs tokeny JWT
