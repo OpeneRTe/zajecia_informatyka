@@ -1,0 +1,153 @@
+Reset stylów domyślnych (opcjonalnie)
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Podstawowe stylowanie body */
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  /* Stylizacja nawigacji */
+  header {
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  header nav ul {
+    display: flex;
+    list-style: none;
+    padding: 10px;
+  }
+  header nav li {
+    margin-right: 20px;
+  }
+  header nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Sekcja paralaksy */
+  .parallax {
+    /* Tło, które będzie się poruszało wolniej niż okno przeglądarki */
+    background: url('images/wyspa.jpg') no-repeat center center;
+    background-size: cover;
+    min-height: 100vh; /* wysokość okna */
+    background-attachment: fixed; /* klucz do efektu paralaksy */
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .quiz-container.parallax{
+    /* Tło, które będzie się poruszało wolniej niż okno przeglądarki */
+    background: url('images/mgla.jpg') no-repeat center center; 
+    background-attachment: fixed; /* klucz do efektu paralaksy */
+}
+
+.game-container.parallax {
+    /* Tło, które będzie się poruszało wolniej niż okno przeglądarki */
+    background: url('images/pustynia.jpg') no-repeat center center;
+    background-attachment: fixed; /* klucz do efektu paralaksy */
+  }
+
+  .parallax-content {
+    background: rgba(255,255,255,0.7);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+
+  /* Quiz */
+
+  .quiz-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    background: #f2f2f2;
+  }
+  
+  .quiz-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .quiz-box h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .answer-buttons {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .answer-buttons li {
+    margin: 10px 0;
+  }
+  
+  .answer-buttons button {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    background-color: white;
+    color: #007bff;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .answer-buttons button:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  button.correct {
+    background-color: #28a745;
+    color: white;
+    border-color: #28a745;
+  }
+  
+  button.incorrect {
+    background-color: #dc3545;
+    color: white;
+    border-color: #dc3545;
+  }
+  
+  .next-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .score {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .timer {
+    font-weight: bold;
+    color: #dc3545;
+    margin-bottom: 10px;
+    font-size: 18px;
+    text-align: center;
+  }

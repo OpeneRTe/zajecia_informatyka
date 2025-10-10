@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Warsztaty: Paralaksa + Quiz + Word Guessing</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Sekcja nawigacyjna (opcjonalnie) -->
+    <header>
+      <nav>
+        <ul>
+          <li><a href="#parallax-section">Paralaksa</a></li>
+          <li><a href="#quiz-section">Quiz</a></li>
+          <li><a href="#game-section">Gra</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    
+    <!-- Sekcja z efektem paralaksy
+    -->
+        <section id="parallax-section" class="parallax">
+            <div class="parallax-content">
+                <h1>Witamy na naszych warsztatach!</h1>
+                <p>Przewiń w dół, aby przejść do quizu i gry</p>
+            </div>
+        </section>
+        
+    <!-- Sekcja z quizem -->
+    <section id="quiz-section" class="quiz-container parallax">
+        <div class="quiz-box">
+            <h2 id="question">Pytanie</h2>
+            <ul id="answer-buttons" class="answer-buttons"></ul>
+            <div class="controls">
+              <button id="next-btn" class="next-btn">Następne</button>
+            </div>
+            <p id="score" class="score">Wynik: 0</p>
+
+            <p id="timer" class="timer">Czas: 10s</p>
+        </div>
+    </section>
+
+    <!-- Sekcja z grą w zgadywanie słów -->
+    <section id="game-section" class="game-container parallax">
+      <h2>Gra w zgadywanie słów</h2>
+      <div class="game-content">
+        <p id="wordHint"></p>
+        <p id="incorrectLetters"></p>
+        <div id="guessArea"></div>
+        <input
+          type="text"
+          id="letterInput"
+          maxlength="1"
+          placeholder="Wpisz literę"
+        />
+        <button id="resetButton">Nowe słowo</button>
+      </div>
+    </section>
+
+    <!-- Podłączenie pliku JavaScript -->
+    <script src="script.js"></script>
+  </body>
+</html>
