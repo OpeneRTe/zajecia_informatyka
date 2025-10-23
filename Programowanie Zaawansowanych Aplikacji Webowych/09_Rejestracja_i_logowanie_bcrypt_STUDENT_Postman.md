@@ -153,21 +153,21 @@ node server.js
 
 W każdym zadaniu przetestuj efekt w Postmanie i opisz krótko, jakie kody HTTP zwraca serwer w scenariuszach: sukces, błąd walidacji, konflikt itp.
 
-- Zadanie A - walidacja danych wejściowych
+- Zadanie 1 - walidacja danych wejściowych
   - W /register: email niepusty i zawiera "@"; hasło min. 8 znaków, w tym litera i cyfra.
   - Zwracaj 400 Bad Request oraz komunikat, które pole jest błędne.
   - Podpowiedź: przygotuj funkcje isValidEmail, isValidPassword.
 
-- Zadanie B - kanonizacja adresu e-mail
+- Zadanie 2 - kanonizacja adresu e-mail
   - Przed zapisem i porównaniami zrób trim i toLowerCase().
   - Udowodnij w Postmanie, że "User@ZST.edu" i " user@zst.edu " to ten sam email.
   - Dla duplikatu - 409 Conflict.
 
-- Zadanie C - konfigurowalne "rounds"
+- Zadanie 3 - konfigurowalne "rounds"
   - Użyj zmiennej BCRYPT_ROUNDS z .env (lub process.env) z domyślną wartością 10.
   - Zmierz czas rejestracji dla 8, 10, 12 - zapisz obserwacje.
 
-- Zadanie D - zmiana hasła (PATCH /password)
+- Zadanie 4 - zmiana hasła (PATCH /password)
   - Endpoint: PATCH /password z body:
     {
       "email": "user@zst.edu",
@@ -177,16 +177,16 @@ W każdym zadaniu przetestuj efekt w Postmanie i opisz krótko, jakie kody HTTP 
   - Weryfikuj stare hasło (bcrypt.compare); nowe musi przejść walidację (jak w Zadaniu A).
   - Kody: 200 OK (sukces), 400 Bad Request (błędne dane), 403 Forbidden (stare hasło niepoprawne), 404 Not Found (użytkownik nie istnieje).
 
-- Zadanie E - limiter prób logowania (in-memory)
+- Zadanie 5 - limiter prób logowania (in-memory)
   - Zliczaj nieudane logowania per email/IP (np. w Map).
   - Po 5 błędnych próbach w 15 minutach blokuj logowanie na 10 minut.
   - Kody: 429 Too Many Requests w okresie blokady; nagłówek Retry-After w sekundach.
 
-- Zadanie F - prosta obserwowalność
+- Zadanie 6 - prosta obserwowalność
   - Dodaj middleware loggera żądań (metoda, ścieżka, kod statusu, czas wykonania w ms).
   - Wyświetlaj w konsoli; upewnij się, że nigdy nie logujesz haseł.
 
-- Zadanie G - reset stanu na potrzeby ćwiczeń
+- Zadanie 7 - reset stanu na potrzeby ćwiczeń
   - Dodaj tylko dla środowiska developerskiego endpoint DELETE /__reset,
     który czyści tablicę users i licznik nieudanych logowań.
   - Zabezpiecz go prostym sekretem w nagłówku X-Dev-Secret (wartość z .env).
