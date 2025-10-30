@@ -206,3 +206,76 @@ app.get('/manage', auth, minLevel('editor'), (req,res)=>{...})
 - `middleware` – funkcje kontrolujące dostęp.  
 - Role (`admin`, `user`, `editor`) – określają poziom uprawnień.  
 - Całość tworzy bezpieczny system logowania i autoryzacji w Express.js.
+
+
+-----
+
+`authorizeAnyRole` to middleware, który sprawdza, czy zalogowany użytkownik posiada **jedną z dozwolonych ról**.  
+Działa podobnie jak `authorizeRole`, ale obsługuje kilka ról jednocześnie.
+
+### 📜 Kod funkcji:
+```js
+function authorizeAnyRole(allowedRoles = []) {
+  return (req, res, next) => {
+    if (req.user && allowedRoles.includes(req.user.role)) {
+      return next()
+    }
+    res.status(403).json({ error: 'Brak uprawnień' })
+  }
+}
+```
+
+### 🔧 Jak to działa:
+1. Funkcja przyjmuje listę dozwolonych ról, np. `['admin', 'editor']`.
+2. Middleware sprawdza, czy `req.user.role` znajduje się na tej liście.
+3. Jeśli tak → wywołuje `next()` i przechodzi dalej.
+4. Jeśli nie → zwraca błąd `403` i komunikat *„Brak uprawnień”*.
+
+### ✅ Przykład użycia:
+```js
+app.get('/editor-or-admin', auth, authorizeAnyRole(['admin', 'editor']), (req, res) => {
+  res.json({ msg: `Witaj ${req.user.role}, masz dostęp do tej sekcji.` })
+})
+```
+
+🔹 Jeśli użytkownik ma rolę `admin` lub `editor` – dostęp przyznany.  
+🔹 Jeśli ma inną rolę (np. `user`) – zwróci komunikat o braku uprawnień.
+
+---
+
+
+
+## 🧩 Co to jest `authorizeAnyRole`?
+
+`authorizeAnyRole` to middleware, który sprawdza, czy zalogowany użytkownik posiada **jedną z dozwolonych ról**.  
+Działa podobnie jak `authorizeRole`, ale obsługuje kilka ról jednocześnie.
+
+### 📜 Kod funkcji:
+```js
+function authorizeAnyRole(allowedRoles = []) {
+  return (req, res, next) => {
+    if (req.user && allowedRoles.includes(req.user.role)) {
+      return next()
+    }
+    res.status(403).json({ error: 'Brak uprawnień' })
+  }
+}
+```
+
+### 🔧 Jak to działa:
+1. Funkcja przyjmuje listę dozwolonych ról, np. `['admin', 'editor']`.
+2. Middleware sprawdza, czy `req.user.role` znajduje się na tej liście.
+3. Jeśli tak → wywołuje `next()` i przechodzi dalej.
+4. Jeśli nie → zwraca błąd `403` i komunikat *„Brak uprawnień”*.
+
+### ✅ Przykład użycia:
+```js
+app.get('/editor-or-admin', auth, authorizeAnyRole(['admin', 'editor']), (req, res) => {
+  res.json({ msg: `Witaj ${req.user.role}, masz dostęp do tej sekcji.` })
+})
+```
+
+🔹 Jeśli użytkownik ma rolę `admin` lub `editor` – dostęp przyznany.  
+🔹 Jeśli ma inną rolę (np. `user`) – zwróci komunikat o braku uprawnień.
+
+---
