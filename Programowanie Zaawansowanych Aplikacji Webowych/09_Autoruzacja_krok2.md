@@ -1,5 +1,5 @@
-# Ćwiczenie: Gość i zwykły użytkownik (bez autoryzacji)
-**Temat:** Wprowadzenie do autoryzacji w Express – rozpoznawanie roli użytkownika  
+# Ćwiczenie: Kontrola dostępu – profil użytkownika (Krok 2)
+**Temat:** Wprowadzenie do autoryzacji w Express – ochrona wybranych zasobów  
 **Zakres:** INF.04.7.3(3,5)  
 **Poziom:** Podstawowy  
 **Czas:** ok. 30 min
@@ -7,54 +7,49 @@
 ---
 
 ## 🎯 Cel
-Poznasz, w jaki sposób serwer może rozróżniać **gościa** od **zalogowanego użytkownika**, zanim wprowadzimy właściwą autoryzację.
+Poznasz, jak dodać **pierwszą formę kontroli dostępu** do aplikacji Express.  
+Celem jest stworzenie endpointu `/profile`, który będzie dostępny tylko dla zalogowanego użytkownika.
 
-W tym ćwiczeniu nie używamy haseł, tokenów ani logowania — tylko proste rozpoznanie po nazwie użytkownika.
+Nie używamy jeszcze haseł ani tokenów – jedynie proste sprawdzenie po nazwie użytkownika.
 
 ---
 
 ## 🧩 Kod wyjściowy
 
-Masz przygotowany serwer Express:
+Korzystamy z kodu z poprzedniego ćwiczenia (Krok 1 – Gość i użytkownik):
 
 ```js
 const express = require("express")
 const app = express()
 
-app.use(express.json()) // obsługa JSON-a w body
+app.use(express.json())
 
-// Tymczasowa lista użytkowników
 const users = [
   { id: 1, name: "Jan", role: "admin" },
   { id: 2, name: "Ola", role: "user" }
 ]
 
-// Proste logowanie (bez haseł, tylko nazwa użytkownika)
-app.post("/login", (req, res) => {
-  const { name } = req.body
-  const user = users.find(u => u.name === name)
-
-  if (!user) {
-    return res.status(401).json({ error: "Nie ma takiego użytkownika!" })
-  }
-
-  res.json({ msg: `Witaj ${user.name}! Twoja rola to: ${user.role}` })
+app.get("/public", (req, res) => {
+  res.json({ msg: "Strefa publiczna: tu każdy ma dostęp (także gość)." })
 })
 
-// Endpoint tylko dla admina
-app.post("/admin", (req, res) => {
-  const { name } = req.body
+app.get("/whoami", (req, res) => {
+  const name = req.query.name
   const user = users.find(u => u.name === name)
 
-  if (!user) {
-    return res.status(401).json({ error: "Musisz się zalogować!" })
+  if (!name || !user) {
+    return res.json({
+      isGuest: true,
+      msg: "Jesteś gościem (podaj ?name=Jan albo ?name=Ola, aby zobaczyć rolę)."
+    })
   }
 
-  if (user.role === "admin") {
-    res.json({ msg: `Witaj ${user.name}! Masz dostęp do panelu administratora.` })
-  } else {
-    res.status(403).json({ error: "Brak uprawnień – nie jesteś administratorem." })
-  }
+  res.json({
+    isGuest: false,
+    name: user.name,
+    role: user.role,
+    msg: `Witaj ${user.name}! Twoja rola to: ${user.role}.`
+  })
 })
 
 app.listen(3000, () => console.log("Serwer działa na http://localhost:3000"))
@@ -64,31 +59,27 @@ app.listen(3000, () => console.log("Serwer działa na http://localhost:3000"))
 
 ## 🧠 Zadanie do wykonania
 
-Rozszerz powyższy kod o dwa nowe endpointy:
-
-### 1️⃣ `GET /public`
-- Dostępny **dla każdego** (gość, user, admin)
-- Zwraca komunikat:
-  ```json
-  { "msg": "Strefa publiczna: tu każdy ma dostęp (także gość)." }
-  ```
-
-### 2️⃣ `GET /whoami`
-- Odczytuje nazwę użytkownika z parametru zapytania `?name=...`
-- Jeśli użytkownik istnieje w tablicy `users`, zwraca:
-  ```json
-  { "isGuest": false, "name": "Ola", "role": "user" }
-  ```
-- Jeśli nie ma parametru `name` lub użytkownik nie istnieje, zwraca:
-  ```json
-  { "isGuest": true, "msg": "Jesteś gościem (podaj ?name=Jan albo ?name=Ola, aby zobaczyć rolę)." }
-  ```
+Dodaj nowy endpoint `GET /profile`, który:
+- przyjmuje nazwę użytkownika przez `?name=...`
+- jeśli użytkownik istnieje → zwraca jego dane i komunikat powitalny
+- jeśli użytkownik nie istnieje → zwraca błąd `401` z informacją, że trzeba się zalogować
 
 ---
 
-## 💡 Wskazówka
-Nie używamy ciasteczek ani tokenów.  
-Identyfikacja odbywa się tylko przez adres URL (np. `?name=Ola`).
+## 💻 Kod do dopisania
+
+```js
+app.get("/profile", (req, res) => {
+  const name = req.query.name
+  const user = users.find(u => u.name === name)
+
+  if (!user) {
+    return res.status(401).json({ error: "Musisz się zalogować, aby zobaczyć swój profil." })
+  }
+
+  res.json({ msg: `Witaj ${user.name}!`, role: user.role })
+})
+```
 
 ---
 
@@ -97,28 +88,26 @@ Identyfikacja odbywa się tylko przez adres URL (np. `?name=Ola`).
 Użyj przeglądarki lub terminala:
 
 ```bash
-curl -i "http://localhost:3000/public"
-curl -i "http://localhost:3000/whoami"
-curl -i "http://localhost:3000/whoami?name=Ola"
-curl -i "http://localhost:3000/whoami?name=Jan"
+curl -i "http://localhost:3000/profile"
+curl -i "http://localhost:3000/profile?name=Ola"
+curl -i "http://localhost:3000/profile?name=Jan"
 ```
 
 ### Oczekiwane wyniki:
 | Zapytanie | Wynik |
 |------------|--------|
-| `/public` | dostępne zawsze |
-| `/whoami` | `isGuest: true` |
-| `/whoami?name=Ola` | `role: "user"` |
-| `/whoami?name=Jan` | `role: "admin"` |
+| `/profile` | `401` – brak zalogowania |
+| `/profile?name=Ola` | 200 – `role: "user"` |
+| `/profile?name=Jan` | 200 – `role: "admin"` |
 
 ---
 
 ## ✅ Kryteria zaliczenia
-- Kod działa i uruchamia się bez błędów (`node server.js`)
-- Endpointy `/public` i `/whoami` działają zgodnie z opisem
-- Uczeń potrafi wyjaśnić, czym różni się **gość** od **zalogowanego użytkownika**
+- Endpoint `/profile` działa poprawnie.
+- Gość (bez `?name`) otrzymuje błąd `401`.
+- Uczeń potrafi wyjaśnić, że „autoryzacja” oznacza sprawdzenie, kto ma dostęp do danego zasobu.
 
 ---
 
 ## 📘 Co dalej?
-W kolejnym kroku dodamy prostą kontrolę dostępu (np. `/profile` tylko dla użytkowników), nadal bez tokenów ani sesji.
+W kolejnym kroku dodamy **różne poziomy uprawnień** (np. `/admin` tylko dla roli `admin`), a potem nauczymy się tworzyć **middleware** do automatycznego sprawdzania ról.
