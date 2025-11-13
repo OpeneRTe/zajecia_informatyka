@@ -1,4 +1,4 @@
-# 51 — Wprowadzenie do React: podstawowe koncepcje (pełna wersja, styl E)
+# 13 — Wprowadzenie do React: podstawowe koncepcje (pełna wersja, styl E)
 INF.04.7.2(1), 7.3(1)
 
 ---
