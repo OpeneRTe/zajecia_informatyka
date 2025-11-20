@@ -2,7 +2,7 @@
 Dokumentacja techniczna  
 Źródła:  
 - W3Schools – React Props: https://www.w3schools.com/react/react_props.asp  
-- React Official Docs – Passing Props: https://react.dev/learn/passing-props
+- React Official Docs – Passing Props: https://react.dev/learn/passing-props-to-a-component
 
 ---
 
