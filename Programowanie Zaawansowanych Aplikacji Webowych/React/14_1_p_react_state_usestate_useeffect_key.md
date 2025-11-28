@@ -1,6 +1,6 @@
 
 # 14.1 React – State, useState, useEffect  
-Klucz odpowiedzi / wskazówki dla nauczyciela
+Klucz odpowiedzi
 
 Dokument uzupełnia zadania praktyczne z pliku:  
 **14_1_p_react_state_usestate_useeffect.md**
