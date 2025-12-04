@@ -1,7 +1,7 @@
 # zadanie_filter.md
 
 ## Teoria obowiązująca
-[Array filter() Method - W3Schools](www.w3schools.com)
+[Array filter() Method - W3Schools](https://www.w3schools.com/jsref/jsref_filter.asp)
 
 ## Zadanie: Filtrowanie produktów według ceny
 
