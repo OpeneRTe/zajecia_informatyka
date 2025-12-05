@@ -6,6 +6,9 @@ Cel: przygotowanie dokumentacji technicznej opisującej podstawowe elementy fram
 ---
 
 ## 1. Czym jest Bootstrap?
+
+[Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+
 Opisz, czym jest framework CSS/JS, jakie problemy rozwiązuje oraz dlaczego jest powszechnie stosowany w projektach frontendowych.
 
 ---
