@@ -28,7 +28,7 @@ Każdy krok stanowi logiczną całość i może być realizowany jako osobne zad
 
 # Zadanie 1 (Krok 1) – Projekt startowy i wyświetlenie wszystkich zdjęć
 
-## A. Specyfikacja dla ucznia
+## A. Specyfikacja
 
 ### Temat
 Aplikacja React – wyświetlenie galerii zdjęć z tablicy danych (bez kategorii).
