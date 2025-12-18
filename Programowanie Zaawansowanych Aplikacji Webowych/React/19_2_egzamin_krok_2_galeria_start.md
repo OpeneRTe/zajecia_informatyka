@@ -1,4 +1,4 @@
-# React + Bootstrap – krok 2 (siatka)
+# Zadanie egzaminacyjne – krok 2 (siatka)
 
 ## Cel kroku 2
 

@@ -17,10 +17,6 @@ W ramach całego zadania uczeń:
 
 Realizacja zadania została podzielona na cztery kroki:
 
-- **Krok 1** – utworzenie projektu i wyświetlenie wszystkich zdjęć,
-- **Krok 2** – dodanie przełączników kategorii i filtrowanie zdjęć,
-- **Krok 3** – implementacja licznika pobrań i przycisku akcji,
-- **Krok 4** – uporządkowanie kodu, stylizacja i przygotowanie aplikacji do oddania.
 
 Każdy krok stanowi logiczną całość i może być realizowany jako osobne zadanie etapowe.
 

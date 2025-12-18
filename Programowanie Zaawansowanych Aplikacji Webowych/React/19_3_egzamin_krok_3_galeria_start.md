@@ -1,4 +1,4 @@
-# React + Bootstrap – krok 3 (karty + pobrania)
+# Zadanie egzaminacyjne – krok 3 (karty + pobrania)
 
 ## Cel kroku 3
 

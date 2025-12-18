@@ -1,4 +1,4 @@
-# React + Bootstrap – krok 4 (filtrowanie + pobrania)
+# Zadanie egzaminacyjne – krok 4 (filtrowanie + pobrania)
 
 ## Cel kroku 4
 
