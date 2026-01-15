@@ -22,7 +22,13 @@ function App() {
   const [photos, setPhotos] = useState(initialPhotos)
 
   const handleDownload = (id) => {
-    .....
+    setPhotos(prev =>
+      prev.map(p =>
+        p.id === id
+          ? { ...p, downloads: p.downloads + 1 }
+          : p
+      )
+    )
   }
 
   return (
@@ -44,12 +50,12 @@ function App() {
                   <h6 className="card-title">{photo.alt}</h6>
 
                   <span className="badge text-bg-primary mb-3">
-                    Pobrania: {....}
+                    Pobrania: {photo.downloads}
                   </span>
 
                   <button
                     className="btn btn-outline-primary mt-auto"
-                    onClick=....
+                    onClick={() => handleDownload(photo.id)}
                   >
                     Pobierz
                   </button>
