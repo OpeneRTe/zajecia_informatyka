@@ -15,7 +15,7 @@ Ten materiał jest dla początkujących. Po przerobieniu będziesz umieć:
 ### Przykłady
 
 ```python
-imie = "Rafal"
+imie = "Jan"
 wiek = 17
 wzrost = 1.76
 czy_uczen = True
