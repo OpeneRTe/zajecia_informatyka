@@ -75,23 +75,8 @@ export default function Rejestracja() {
         <form action={handleSubmit}>
             <h2>Formularz rejestracyjny</h2>
             <input type="text" name="imie" placeholder="Imię" /> <br />
-            <input type="text" name="nazwisko" placeholder="Nazwisko" /> <br />
-            <input type="email" name="email" placeholder="Email" /> <br />
-            <input type="tel" name="telefon" placeholder="Telefon" /> <br />
-            <input type="date" name="dataUrodzenia" placeholder="Data urodzenia" /> <br />
-            <select name="kraj">
-                <option value="">Wybierz kraj</option>
-                <option value="polska">Polska</option>
-                <option value="niemcy">Niemcy</option>
-                <option value="francja">Francja</option>
-            </select> <br />
-            <input type="radio" name="plec" value="mezczyzna" /> Mężczyzna
-            <input type="radio" name="plec" value="kobieta" /> Kobieta
-
-            <input type="checkbox" name="zgoda" /> Akceptuję regulamin <br />
-            <textarea name="komentarz" placeholder="Komentarz"></textarea> <br />
-            <input type="password" name="haslo" placeholder="Hasło" /> <br />
-            <input type="password" name="hasloPotwierdzenie" placeholder="Potwierdź hasło" /> <br />
+            ...
+            ...
 
             <input type="submit" value="Submit" />
             <input type="reset" value="Reset" />
