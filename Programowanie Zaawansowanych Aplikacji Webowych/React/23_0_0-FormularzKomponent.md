@@ -93,6 +93,14 @@ export default function FormularzKomponent1() {
         // Sprawdź czy hasło i potwierdzenie hasła są takie same
 
         setErrors(przechwyconeBledy);
+
+        if (przechwyconeBledy.imie ||
+          przechwyconeBledy.nazwisko ||
+          ... // Sprawdź pozostałe błędy
+        
+        ) return;
+
+
         setInputs(dane);
     };
 
