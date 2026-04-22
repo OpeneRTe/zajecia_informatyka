@@ -40,48 +40,82 @@ Pobieranie wartości | Ze zmiennej stanowej. | Metodą formData.get('name').
 Obsługa zdarzenia | Wymaga wywołania e.preventDefault(). | Obsługiwane automatycznie przez React.
 Wydajność | Render przy każdym naciśnięciu klawisza. | Render tylko przy wysyłce formularza.
 
-### Przykład kompletnego komponentuJavaScriptimport React from 'react';
+### Przykład formularza React from 'react';
 
 ```js
-export default function Rejestracja() {
-  // Funkcja 'action' otrzymuje dane formularza automatycznie
-  const procesujFormularz = (formData) => {
-    const imie = formData.get("firstName");
-    const wiek = formData.get("age");
+import React, { useState } from 'react';
 
-    console.log(`Zarejestrowano: ${imie}, wiek: ${wiek}`);
-  };
+export default function FormularzKomponent1() {
+    const [errors, setErrors] = useState({});
 
-  return (
-    <form action={procesujFormularz}>
-      <label>
-        Imię:
-        <input type="text" name="firstName" />
-      </label>
-      <br />
-      <label>
-        Wiek:
-        <input type="number" name="age" />
-      </label>
-      <br />
-      <button type="submit">Wyślij</button>
-    </form>
-  );
-}
-```
+    const [inputs, setInputs] = useState({
+        imie: '',
+        ...
+    });
 
-```html
- return (
+    const resetForm = () => {
+        setInputs({
+            imie: '',
+            nazwisko: '',
+           ...
+        });
+
+        setErrors({});
+    };
+
+    const handleSubmit = (formData) => {
+        const przechwyconeBledy = {};
+
+        const dane = {
+            imie: formData.get('imie') || '',
+            nazwisko: formData.get('nazwisko') || '',
+            // Pobierz pozostałe dane z formData
+
+        if (dane.imie.length < 3) {
+            przechwyconeBledy.imie = 'Imię musi mieć co najmniej 3 znaki';
+        }
+
+        // Sprawdź czy nazwisko ma co najmniej 2 znaki
+        
+        // Sprawdź czy email zawiera '@'
+        
+        // Sprawdź czy telefon ma co najmniej 9 znaków
+        
+        // Sprawdź czy data urodzenia została podana !dane.dataUrodzenia
+        
+        // Sprawdź czy kraj został wybrany !dane.kraj
+
+        // Sprawdź czy płeć została wybrana !dane.plec
+        
+        // Sprawdź czy zgoda została zaakceptowana !dane.zgoda
+        // Sprawdź czy hasło ma co najmniej 6 znaków
+        
+        // Sprawdź czy hasło i potwierdzenie hasła są takie same
+
+        setErrors(przechwyconeBledy);
+        setInputs(dane);
+    };
+
+    return (
         <form action={handleSubmit}>
+           
             <h2>Formularz rejestracyjny</h2>
-            <input type="text" name="imie" placeholder="Imię" /> <br />
-            ...
-            ...
+
+            <input
+                type="text"
+                name="imie"
+                placeholder="Imię"
+                defaultValue={inputs.imie}
+            />
+            <br />
+            {errors.imie && <span>{errors.imie}</span>}
+            <br />
+
+            // Uzupełnij pozostałe pola formularza wraz z wyświetlaniem błędów
 
             <input type="submit" value="Submit" />
-            <input type="reset" value="Reset" />
-            
+            <input type="reset" value="Reset" onClick={resetForm} />
         </form>
     );
-    ```
+}
     
