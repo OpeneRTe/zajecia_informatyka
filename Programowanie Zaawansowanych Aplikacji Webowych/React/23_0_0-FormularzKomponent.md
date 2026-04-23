@@ -31,6 +31,7 @@ Tradycyjnie w React używaliśmy zdarzenia onSubmit. Nowoczesny React pozwala pr
 // ... wewnątrz return:
 <form action={handleSubmit}>
     <input type="email" name="email" />
+    <input type="submit" value="Submit">
 </form>
 ```
 ## Porównanie podejść
