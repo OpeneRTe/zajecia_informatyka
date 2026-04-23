@@ -19,35 +19,6 @@ Uczeń:
 
 Na podstawie przykładowego komponentu odpowiedz własnymi słowami.
 
-### Zadanie 1
-Do czego służy poniższy import?
-
-```jsx
-import React, { useState, useEffect } from 'react';
-```
-
-Odpowiedź:
-
-................................................................................
-
-................................................................................
-
-### Zadanie 2
-Wyjaśnij rolę poniższych stanów:
-
-```jsx
-const [uzytkownicy, setUzytkownicy] = useState([]);
-const [czyLaduje, setCzyLaduje] = useState(true);
-```
-
-`uzytkownicy` przechowuje:
-
-................................................................................
-
-`czyLaduje` przechowuje:
-
-................................................................................
-
 ### Zadanie 3
 Wyjaśnij, po co zastosowano `useEffect()` w tym fragmencie:
 
@@ -87,12 +58,6 @@ Wskaż elementy formularza w poniższym kodzie.
   </button>
 </form>
 ```
-
-Uzupełnij:
-- znacznik formularza: ..........................................................
-- pierwsze pole formularza: .....................................................
-- drugie pole formularza: .......................................................
-- przycisk wysyłający formularz: ................................................
 
 ### Zadanie 5
 Wyjaśnij, co oznacza zapis:
@@ -201,22 +166,6 @@ const pobierzDane = () => {
 };
 ```
 
-### Zadanie 11
-Napisz własnymi słowami, co dzieje się po kliknięciu przycisku:
-
-```jsx
-<button onClick={pobierzDane} className="btn btn-outline-secondary btn-sm">
-  Odśwież
-</button>
-```
-
-Odpowiedź:
-
-................................................................................
-
-................................................................................
-
----
 
 ## 5. `fetch()` – metoda POST
 
@@ -260,7 +209,7 @@ Po poprawnym `POST` wykonuje się fragment:
 ```
 
 Wyjaśnij:
-- co pokazuje `alert()`: .........................................................
+
 - co robi `setUzytkownicy([dane, ...uzytkownicy])`: ..............................
 
 ---
@@ -321,13 +270,6 @@ Dopasuj klasy Bootstrap do ich roli.
 
 ### Zadanie 18
 Wypisz trzy klasy Bootstrap użyte do budowy formularza.
-
-- ..............................................................................
-- ..............................................................................
-- ..............................................................................
-
-### Zadanie 19
-Wypisz trzy klasy Bootstrap użyte do budowy listy użytkowników.
 
 - ..............................................................................
 - ..............................................................................
@@ -466,70 +408,4 @@ Uzupełnij definicje.
 Bootstrap – ....................................................................
 
 ---
-
-## 12. Krótka powtórka przed końcem lekcji
-
-### Zadanie 31
-Napisz z pamięci prosty formularz Bootstrap z dwoma polami i przyciskiem.
-
-```html
-
-
-
-```
-
-### Zadanie 32
-Napisz z pamięci prosty przykład `fetch()` metodą `GET`.
-
-```js
-
-
-
-```
-
-### Zadanie 33
-Napisz z pamięci prosty przykład `fetch()` metodą `POST`.
-
-```js
-
-
-
-```
-
-### Zadanie 34
-Napisz z pamięci, jak odczytać z `FormData` pole `email`.
-
-```js
-
-
-
-```
-
-### Zadanie 35
-Napisz z pamięci prosty przykład formularza React z `action`.
-
-```jsx
-
-
-
-```
-
----
-
-## 13. Wniosek ucznia
-
-### Zadanie 36
-Który element był dla Ciebie najtrudniejszy?
-
-................................................................................
-
-### Zadanie 37
-Co musisz jeszcze powtórzyć?
-
-................................................................................
-
-### Zadanie 38
-Co już rozumiesz dobrze?
-
-................................................................................
 
