@@ -93,12 +93,12 @@ Nigdy nie mamy 100% pewności, że internet nie zniknie lub serwer nie padnie, d
 Pamiętaj, że `fetch` domyślnie **nie rzuca błędu** przy błędach serwera takich jak 404 (nie znaleziono) czy 500 (błąd serwera). Wchodzi do `.catch()` tylko wtedy, gdy w ogóle nie udało się nawiązać połączenia. Warto więc w pierwszym `.then()` sprawdzać, czy `res.ok` jest prawdziwe!
 
 
-Zrozumiałem Twoją prośbę. Przygotowałem szczegółową analizę zaznaczonego w **Canvas** kodu funkcji `pobierzDane`, która odpowiada za pobieranie danych z zewnętrznego API.
+Analiza kodu funkcji `pobierzDane`, która odpowiada za pobieranie danych z zewnętrznego API.
 
 Oto co dzieje się krok po kroku w tej funkcji:
 
 1.  **Zarządzanie stanem ładowania (`setCzyLaduje(true)`):**
-    Na samym początku funkcja informuje aplikację, że proces pobierania właśnie się rozpoczął. Dzięki temu użytkownik widzi w interfejsie kręcący się spinner (wskaźnik ładowania).
+    Na samym początku funkcja informuje aplikację, że proces pobierania właśnie się rozpoczął. Dzięki temu użytkownik widzi w interfejsie np kręcący się spinner (wskaźnik ładowania).
 
 2.  **Inicjowanie żądania (`fetch`):**
     Używamy wbudowanej w przeglądarkę funkcji `fetch`, aby wysłać zapytanie pod adres `jsonplaceholder.typicode.com/users`. Jest to operacja asynchroniczna, co oznacza, że reszta kodu może działać dalej, podczas gdy przeglądarka czeka na odpowiedź z internetu.
@@ -137,9 +137,8 @@ Oto co dzieje się krok po kroku w tej funkcji:
   };
 
   ```
-  Jasne, wyjaśnię Ci dokładnie, co dzieje się w tej funkcji obsługującej wysyłanie danych na serwer. Jest to klasyczny przykład operacji **POST** przy użyciu nowoczesnych mechanizmów Reacta.
 
-Oto szczegółowa analiza krok po kroku:
+Analiza krok po kroku:
 
 ### 1. Pobieranie danych z `formData`
 ```javascript
@@ -173,10 +172,10 @@ fetch("...", {
 })
 ```
 * **`res.json()`**: Czekamy, aż serwer potwierdzi odebranie danych i odeśle nam kopię nowo stworzonego obiektu (często z nadanym nowym ID).
-* **`setUzytkownicy(...)`**: To bardzo ważny moment dla interfejsu. Zamiast odświeżać całą stronę, używamy funkcji aktualizującej stan. 
+* **`setUzytkownicy(...)`**: Zamiast odświeżać całą stronę, używamy funkcji aktualizującej stan. 
     * Bierzemy "starą listę" (`staraLista`).
     * Tworzymy nową tablicę, gdzie na samym początku wrzucamy nowego użytkownika (`dane`), a po przecinku rozpakowujemy resztę starej listy (`...staraLista`).
-    * Dzięki temu uczeń widzi nowy wpis na samej górze listy natychmiast po kliknięciu przycisku.
+    
 
 ### 4. Bezpieczeństwo (`.catch`)
 * Jeśli serwer leży lub nie ma internetu, funkcja nie "wywali" całej aplikacji, tylko grzecznie wypisze błąd w konsoli programisty.
