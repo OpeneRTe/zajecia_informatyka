@@ -29,7 +29,9 @@ Tradycyjnie w React używaliśmy zdarzenia onSubmit. Nowoczesny React pozwala pr
     };
 
 // ... wewnątrz return:
-<input type="email" name="email" />
+<form action={handleSubmit}>
+    <input type="email" name="email" />
+</form>
 ```
 ## Porównanie podejść
 
