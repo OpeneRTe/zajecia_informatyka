@@ -150,24 +150,6 @@ Pozwala zobaczyć między innymi pliki:
 
 które przy zwykłym `ls` mogą nie być widoczne.
 
-### Uwaga dotycząca `la`
-
-Polecenie:
-
-```bash
-la
-```
-
-nie jest standardowym poleceniem Bash.
-
-Na niektórych komputerach może działać jako alias dla:
-
-```bash
-ls -la
-```
-
-Nie należy jednak zakładać, że będzie dostępne na każdym komputerze.
-
 ---
 
 # Tworzenie katalogów i plików
