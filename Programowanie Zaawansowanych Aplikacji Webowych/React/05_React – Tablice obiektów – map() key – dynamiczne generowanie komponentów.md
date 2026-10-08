@@ -108,48 +108,6 @@ Node.js
 MySQL
 ```
 
-# Drugi parametr metody `map()`
-
-Metoda `map()` może przyjmować drugi parametr, którym jest indeks elementu w tablicy.
-
-Przykład:
-
-```javascript
-const technologies = ["React", "Node.js", "MySQL"];
-
-const newTechnologies = technologies.map((technology, index) => {
-  return `${technology} (${index})`;
-});
-
-console.log(newTechnologies);
-```
-
-Wynik:
-
-```text
-[ "React (0)", "Node.js (1)", "MySQL (2)" ]
-```
-
-## Możemy wykorzystać indeks jako `key` w React
-
-W React każdemu elementowi w liście należy przypisać unikalną właściwość `key`. Jeśli nie mamy unikalnego identyfikatora, możemy tymczasowo użyć indeksu elementu w tablicy.
-
-Przykład:
-
-```jsx
-const technologies = ["React", "Node.js", "MySQL"];
-
-const TechnologyList = () => {
-  return (
-    <div>
-      {technologies.map((technology, index) => (
-        <Technology key={index} name={technology} />
-      ))}
-    </div>
-  );
-};
-```
-
 ---
 
 # 2. Przypomnienie – obiekt
@@ -366,6 +324,44 @@ numbers.map((x) => {
 Jednak lepiej stosować nazwy opisujące dane.
 
 ---
+
+drugi parametr funkcji w `map()` to indeks elementu w tablicy.
+
+Przykład:
+
+```javascript
+const numbers = [1, 2, 3];
+
+const newNumbers = numbers.map((number, index) => {
+  return `${number} (${index})`;
+});
+
+console.log(newNumbers);
+```
+
+Wynik:
+
+```text
+["1 (0)", "2 (1)", "3 (2)"]
+```
+
+drugi parametr funkcji w `map()` to indeks elementu w tablicy. Możemy go wykorzystać np. jako tymczasowy `key` w React.
+
+Przykład użycia indeksu jako `key` w React:
+
+```jsx
+const technologies = ["React", "Node.js", "MySQL"];
+
+const TechnologyList = () => {
+  return (
+    <div>
+      {technologies.map((technology, index) => (
+        <Technology key={index} name={technology} />
+      ))}
+    </div>
+  );
+};
+```
 
 # 7. Funkcja strzałkowa w `map()` – różnica między `()` a `{}`
 
