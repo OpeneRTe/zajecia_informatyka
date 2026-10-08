@@ -108,6 +108,48 @@ Node.js
 MySQL
 ```
 
+# Drugi parametr metody `map()`
+
+Metoda `map()` może przyjmować drugi parametr, którym jest indeks elementu w tablicy.
+
+Przykład:
+
+```javascript
+const technologies = ["React", "Node.js", "MySQL"];
+
+const newTechnologies = technologies.map((technology, index) => {
+  return `${technology} (${index})`;
+});
+
+console.log(newTechnologies);
+```
+
+Wynik:
+
+```text
+[ "React (0)", "Node.js (1)", "MySQL (2)" ]
+```
+
+## Możemy wykorzystać indeks jako `key` w React
+
+W React każdemu elementowi w liście należy przypisać unikalną właściwość `key`. Jeśli nie mamy unikalnego identyfikatora, możemy tymczasowo użyć indeksu elementu w tablicy.
+
+Przykład:
+
+```jsx
+const technologies = ["React", "Node.js", "MySQL"];
+
+const TechnologyList = () => {
+  return (
+    <div>
+      {technologies.map((technology, index) => (
+        <Technology key={index} name={technology} />
+      ))}
+    </div>
+  );
+};
+```
+
 ---
 
 # 2. Przypomnienie – obiekt
