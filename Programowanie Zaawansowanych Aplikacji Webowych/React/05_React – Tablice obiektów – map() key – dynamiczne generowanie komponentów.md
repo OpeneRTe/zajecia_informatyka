@@ -325,6 +325,44 @@ Jednak lepiej stosować nazwy opisujące dane.
 
 ---
 
+drugi parametr funkcji w `map()` to indeks elementu w tablicy.
+
+Przykład:
+
+```javascript
+const numbers = [1, 2, 3];
+
+const newNumbers = numbers.map((number, index) => {
+  return `${number} (${index})`;
+});
+
+console.log(newNumbers);
+```
+
+Wynik:
+
+```text
+["1 (0)", "2 (1)", "3 (2)"]
+```
+
+drugi parametr funkcji w `map()` to indeks elementu w tablicy. Możemy go wykorzystać np. jako tymczasowy `key` w React.
+
+Przykład użycia indeksu jako `key` w React:
+
+```jsx
+const technologies = ["React", "Node.js", "MySQL"];
+
+const TechnologyList = () => {
+  return (
+    <div>
+      {technologies.map((technology, index) => (
+        <Technology key={index} name={technology} />
+      ))}
+    </div>
+  );
+};
+```
+
 # 7. Funkcja strzałkowa w `map()` – różnica między `()` a `{}`
 
 W `map()` bardzo często spotkamy dwa podobne zapisy:
