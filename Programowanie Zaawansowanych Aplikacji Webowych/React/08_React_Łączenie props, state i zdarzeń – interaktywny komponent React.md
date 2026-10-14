@@ -1,803 +1,323 @@
 # Łączenie props, state i zdarzeń – interaktywny komponent React
 
-## Cele lekcji
+## Punkt wyjścia i cele lekcji
 
-Po zakończeniu lekcji uczeń:
+Rozwijamy istniejący projekt WebTech. Po lekcji 05 mamy dziewięć kart z obrazkami, po lekcji 06 przyciski wypisujące dane w konsoli, a po lekcji 07 niezależne polubienia i status nauki w każdej karcie.
 
-- łączy tablicę obiektów z `map()`,
-- generuje komponenty na podstawie danych,
-- przekazuje dane za pomocą props,
-- wykorzystuje `key`,
-- obsługuje zdarzenie `onClick`,
-- wykorzystuje `useState`,
-- zmienia stan komponentu,
-- stosuje prostą instrukcję renderowania warunkowego,
-- tworzy wielokrotnie wykorzystywany komponent interaktywny,
-- rozumie podstawowy przepływ danych w aplikacji React.
+Na tej lekcji uczeń:
+
+- łączy props, lokalny stan i obsługę zdarzeń,
+- warunkowo wyświetla fragment JSX,
+- zmienia etykietę przycisku zależnie od stanu,
+- rozróżnia dane technologii i stan jej interfejsu,
+- zachowuje wcześniejsze funkcje podczas rozbudowy komponentu.
+
+Najpierw poznaj mechanizm i wykonaj ćwiczenia ogólne w części A. Następnie zastosuj go w WebTech w części B.
 
 ---
 
 # 1. Co już potrafimy?
 
-Mamy już wszystkie podstawowe elementy potrzebne do utworzenia pierwszej interaktywnej aplikacji.
+`App` przechowuje tablicę `technologies`. Metoda `map()` zwraca komponenty `Technology` z kluczem `technology.id` i props: `name`, `category`, `hours`, `image`.
 
-## Dane
+Każdy komponent `Technology` ma własny stan `likes` i `isLearning`. Teraz dodamy trzeci stan: `visible`, określający widoczność szczegółów.
 
-```javascript
-const technologies = [
-  {
-    id: 1,
-    name: "React",
-    category: "Frontend",
-    hours: 30
-  }
-];
-```
+| Rodzaj danych | Przykłady | Rola |
+|---|---|---|
+| Props | `name`, `category`, `hours`, `image` | Dane przekazane przez rodzica |
+| State | `likes`, `isLearning`, `visible` | Dane zmieniane podczas obsługi karty |
 
-## Generowanie komponentów
+Komponent nie modyfikuje props. Stan aktualizuje przez funkcje ustawiające.
 
-```jsx
-technologies.map(...)
-```
+---
 
-## Komponent
+# 2. Stan widoczności i obsługa kliknięcia
+
+W funkcji komponentu, przed `return`:
 
 ```jsx
-<Technology />
-```
-
-## Props
-
-```jsx
-<Technology name={technology.name} />
-```
-
-## Zdarzenie
-
-```jsx
-onClick={...}
-```
-
-## State
-
-```javascript
 const [visible, setVisible] = useState(false);
+
+function toggleDetails() {
+  setVisible(previousVisible => !previousVisible);
+}
 ```
 
-Teraz połączymy te mechanizmy.
+`false` oznacza początkowo ukryte szczegóły. Operator `!` zmienia `false` na `true` i odwrotnie.
 
----
-
-# 2. Cel
-
-Chcemy uzyskać komponent:
-
-```text
-React
-
-[Pokaż szczegóły]
-```
-
-Po kliknięciu:
-
-```text
-React
-
-Kategoria: Frontend
-Liczba godzin: 30
-
-[Ukryj szczegóły]
-```
-
-Każda technologia ma posiadać własny stan widoczności.
-
----
-
-# 3. Stan `visible`
-
-W komponencie:
-
-```javascript
-const [visible, setVisible] = useState(false);
-```
-
-Na początku:
-
-```text
-visible = false
-```
-
-Szczegóły są ukryte.
-
-Po kliknięciu:
-
-```javascript
-setVisible(true);
-```
-
-możemy je wyświetlić.
-
-Jednak chcemy, aby ten sam przycisk działał w obie strony.
-
-Dlatego wykorzystujemy:
-
-```javascript
-setVisible(!visible);
-```
-
----
-
-# 4. Zmiana wartości na przeciwną
-
-Jeżeli:
-
-```text
-visible = false
-```
-
-to:
-
-```javascript
-!visible
-```
-
-daje:
-
-```text
-true
-```
-
-Po następnym kliknięciu:
-
-```text
-visible = true
-```
-
-więc:
-
-```javascript
-!visible
-```
-
-daje:
-
-```text
-false
-```
-
-Otrzymujemy:
-
-```text
-false → kliknięcie → true
-true  → kliknięcie → false
-```
-
----
-
-# 5. Renderowanie warunkowe
-
-Nie zawsze chcemy wyświetlać wszystkie elementy.
-
-Możemy zapisać:
+Przekazujemy funkcję do zdarzenia:
 
 ```jsx
-{visible && <p>Element jest widoczny</p>}
+<button onClick={toggleDetails}>Zmień widoczność</button>
 ```
 
-Oznacza to:
-
-```text
-jeżeli visible jest true
-→ wyświetl element
-```
-
-Jeżeli:
-
-```text
-visible = false
-```
-
-element nie zostanie wyświetlony.
+Nie zapisujemy `onClick={toggleDetails()}`, ponieważ wywołałoby to funkcję podczas renderowania.
 
 ---
 
-# 6. Kilka elementów warunkowych
+# 3. Renderowanie warunkowe z `&&`
 
-Jeżeli chcemy wyświetlić kilka elementów, możemy użyć fragmentu:
+```jsx
+{visible && <p>Dodatkowe informacje</p>}
+```
+
+Gdy `visible` ma wartość `true`, React renderuje akapit. Gdy ma wartość `false`, pomija go. Warunek w tym przykładzie jest wartością logiczną.
+
+Kilka elementów grupujemy np. w `div`:
 
 ```jsx
 {visible && (
-  <>
-    <p>Kategoria: {category}</p>
-    <p>Liczba godzin: {hours}</p>
-  </>
+  <div className="technology-details">
+    <span className="technology-badge">{category}</span>
+    <p>Czas nauki: {hours} godz.</p>
+  </div>
 )}
 ```
 
+Ukrywamy tylko wskazany fragment. Przyciski sterujące i pozostałe elementy karty umieszczamy poza nim, aby pozostały dostępne.
+
 ---
 
-# 7. Dynamiczny tekst przycisku
+# 4. Dynamiczna etykieta przycisku
 
-Możemy również zmieniać napis na przycisku.
+Operator warunkowy wybiera jedną z dwóch wartości:
 
 ```jsx
 {visible ? "Ukryj szczegóły" : "Pokaż szczegóły"}
 ```
 
-Operator:
-
-```javascript
-warunek ? wartość1 : wartość2
-```
-
-działa następująco:
-
-```text
-jeżeli warunek = true
-→ wartość1
-
-jeżeli warunek = false
-→ wartość2
-```
-
-Dlatego:
+Połączenie obsługi zdarzenia i tekstu:
 
 ```jsx
-<button>
+<button onClick={toggleDetails} aria-expanded={visible}>
   {visible ? "Ukryj szczegóły" : "Pokaż szczegóły"}
 </button>
 ```
 
+`aria-expanded` informuje technologie asystujące, czy szczegóły są rozwinięte.
+
 ---
 
-# 8. Kompletny komponent `Technology`
+# 5. Przykład mechanizmu – `InfoPanel`
+
+To mały przykład do analizy przed ćwiczeniami; nie zastępuje komponentu WebTech.
 
 ```jsx
 import { useState } from "react";
 
-function Technology({ name, category, hours }) {
-
+function InfoPanel({ title, description }) {
   const [visible, setVisible] = useState(false);
 
   function toggleDetails() {
-    setVisible(!visible);
+    setVisible(previousVisible => !previousVisible);
   }
 
   return (
-    <section>
-      <h2>{name}</h2>
-
-      <button onClick={toggleDetails}>
+    <article>
+      <h3>{title}</h3>
+      <button onClick={toggleDetails} aria-expanded={visible}>
         {visible ? "Ukryj szczegóły" : "Pokaż szczegóły"}
       </button>
-
-      {visible && (
-        <>
-          <p>Kategoria: {category}</p>
-          <p>Liczba godzin: {hours}</p>
-        </>
-      )}
-    </section>
+      {visible && <p>{description}</p>}
+    </article>
   );
 }
 
-export default Technology;
+export default InfoPanel;
 ```
 
-Przeanalizujmy poszczególne elementy.
+Przepływ po kliknięciu:
 
-### Props
-
-```javascript
-{ name, category, hours }
+```text
+onClick → toggleDetails → setVisible → kolejny render → nowy tekst i widoczność
 ```
 
-Dane pochodzą z komponentu nadrzędnego.
-
-### State
-
-```javascript
-const [visible, setVisible] = useState(false);
-```
-
-Komponent przechowuje informację o widoczności.
-
-### Zdarzenie
-
-```jsx
-onClick={toggleDetails}
-```
-
-Kliknięcie uruchamia funkcję.
-
-### Aktualizacja stanu
-
-```javascript
-setVisible(!visible);
-```
-
-Stan zostaje zmieniony.
-
-### Renderowanie warunkowe
-
-```jsx
-{visible && (...)}
-```
-
-Interfejs zależy od aktualnego stanu.
+Props dostarczają treść, stan określa jej widoczność, a zdarzenie uruchamia zmianę stanu.
 
 ---
 
-# 9. Projekt WebTech – etap 7
+# 6. Część A. Ćwiczenia utrwalające
 
-## `App.jsx`
+Ćwiczenia wykonaj w osobnym komponencie ćwiczeniowym.
 
-```jsx
-import Header from "./components/Header";
-import Technology from "./components/Technology";
-import Footer from "./components/Footer";
+## Zadanie 1. Karty produktów
 
-function App() {
-
-const technologies = [
-  {
-    id: 1,
-    name: "React",
-    category: "Frontend",
-    hours: 30,
-    image: "react.webp"
-  },
-  {
-    id: 2,
-    name: "Node.js",
-    category: "Backend",
-    hours: 40,
-    image: "nodejs.webp"
-  },
-  {
-    id: 3,
-    name: "MySQL",
-    category: "Baza danych",
-    hours: 20,
-    image: "mysql.webp"
-  },
-  {
-    id: 4,
-    name: "Express",
-    category: "Backend",
-    hours: 25,
-    image: "express.webp"
-  },
-  {
-    id: 5,
-    name: "MongoDB",
-    category: "Baza danych",
-    hours: 30,
-    image: "mongodb.webp"
-  },
-  {
-    id: 6,
-    name: "Bootstrap",
-    category: "Frontend",
-    hours: 15,
-    image: "bootstrap.webp"
-  },
-  {
-    id: 7,
-    name: "CSS",
-    category: "Frontend",
-    hours: 20,
-    image: "css.webp"
-  },
-  {
-    id: 8,
-    name: "HTML",
-    category: "Frontend",
-    hours: 10,
-    image: "html.webp"
-  },
-  {
-    id: 9,
-    name: "PHP",
-    category: "Backend",
-    hours: 35,
-    image: "php.webp"
-  }
-];
-
-  return (
-    <>
-      <Header />
-
-      <main>
-        {technologies.map((technology) => (
-          <Technology
-            key={technology.id}
-            name={technology.name}
-            category={technology.category}
-            hours={technology.hours}
-          />
-        ))}
-      </main>
-
-      <Footer />
-    </>
-  );
-}
-
-export default App;
-```
-
-## `Technology.jsx`
-
-```jsx
-import { useState } from "react";
-
-function Technology({ name, category, hours }) {
-
-  const [visible, setVisible] = useState(false);
-
-  function toggleDetails() {
-    setVisible(!visible);
-  }
-
-  return (
-    <section>
-      <h2>{name}</h2>
-
-      <button onClick={toggleDetails}>
-        {visible ? "Ukryj szczegóły" : "Pokaż szczegóły"}
-      </button>
-
-      {visible && (
-        <>
-          <p>Kategoria: {category}</p>
-          <p>Liczba godzin: {hours}</p>
-        </>
-      )}
-    </section>
-  );
-}
-
-export default Technology;
-```
-
----
-
-# 10. Co dzieje się po uruchomieniu aplikacji?
-
-`App` posiada tablicę obiektów:
-
-```text
-technologies
-```
-
-Następnie:
-
-```text
-technologies
-      ↓
-    map()
-      ↓
-Technology
-      ↓
-    props
-```
-
-Każdy `Technology` otrzymuje:
-
-```text
-name
-category
-hours
-```
-
-Każdy komponent posiada również własny:
-
-```text
-visible
-```
-
-Dlatego możemy otworzyć szczegóły React:
-
-```text
-React → visible = true
-```
-
-a jednocześnie:
-
-```text
-Node.js → visible = false
-MySQL   → visible = false
-Express → visible = false
-```
-
-Każda instancja komponentu posiada własny stan.
-
----
-
-# 11. Props a state w naszej aplikacji
-
-Dla:
-
-```jsx
-<Technology
-  name="React"
-  category="Frontend"
-  hours={30}
-/>
-```
-
-mamy:
-
-```text
-PROP:
-name = React
-
-PROP:
-category = Frontend
-
-PROP:
-hours = 30
-
-STATE:
-visible = false / true
-```
-
-Props opisują technologię.
-
-State opisuje aktualny stan interfejsu komponentu.
-
----
-
-# Zadanie samodzielne – ProductCard
-
-Utwórz tablicę:
+Wykorzystaj dane:
 
 ```javascript
 const products = [
-  {
-    id: 1,
-    name: "Laptop",
-    category: "Komputery",
-    price: 3500
-  },
-  {
-    id: 2,
-    name: "Monitor",
-    category: "Monitory",
-    price: 1200
-  },
-  {
-    id: 3,
-    name: "Klawiatura",
-    category: "Akcesoria",
-    price: 300
-  }
+  { id: 1, name: "Laptop", category: "Komputery", price: 3500 },
+  { id: 2, name: "Monitor", category: "Monitory", price: 1200 },
+  { id: 3, name: "Klawiatura", category: "Akcesoria", price: 300 }
 ];
 ```
 
-Utwórz komponent:
+Utwórz `ProductCard`, przyjmujący `name`, `category` i `price`. Wygeneruj trzy karty przez `map()`, ustawiając `key={product.id}` na zwracanym komponencie.
 
-```text
-ProductCard
-```
+Początkowo karta pokazuje nazwę i przycisk „Pokaż szczegóły”. Po kliknięciu pojawiają się kategoria i cena, a napis zmienia się na „Ukryj szczegóły”. Każda karta ma niezależny stan.
 
-Do komponentu przekaż przez props:
+## Zadanie 2. Informacja zależna od props
 
-```text
-name
-category
-price
-```
+Dodaj do obiektów pole `available`: dla części produktów `true`, dla pozostałych `false`. Przekaż je przez props i w rozwiniętych szczegółach wyświetl „Dostępny” lub „Niedostępny” za pomocą `? :`.
 
-Komponent początkowo ma wyświetlać tylko:
+Odpowiedz: dlaczego `available` jest tutaj props, a `visible` stanem?
 
-```text
-Laptop
-[Pokaż szczegóły]
-```
+## Zadanie 3. Dwa niezależne stany
 
-Po kliknięciu:
+Dodaj licznik polubień, przycisk „Lubię” i „Resetuj polubienia”. Umieść je poza warunkowo wyświetlanymi szczegółami.
 
-```text
-Laptop
-
-Kategoria: Komputery
-Cena: 3500 zł
-
-[Ukryj szczegóły]
-```
-
-Każdy produkt musi posiadać niezależny stan widoczności.
+Sprawdź: po zwiększeniu licznika do 2, ukryciu i ponownym pokazaniu szczegółów licznik nadal wynosi 2. Reset polubień nie zmienia widoczności.
 
 ---
 
-# Zadanie dodatkowe 1
+# 7. Część B. Projekt WebTech – etap 7: rozwijane szczegóły
 
-Dodaj do obiektów:
+## Zadanie 1. Rozbuduj istniejącą kartę
 
-```javascript
-available: true
+Pracuj na dziewięciu technologiach z lekcji 05. Nie wprowadzaj ponownie tablicy ani nie zastępuj jej krótszą wersją. Zachowaj przekazywanie wszystkich czterech props, w tym `image`, oraz `key={technology.id}`.
+
+W istniejącym `Technology` dodaj stan `visible` z wartością początkową `false` i funkcję `toggleDetails`.
+
+## Zadanie 2. Ustal zawartość szczegółów
+
+Na lekcji 05 wszystkie dane były widoczne. Teraz świadomie zmieniamy sposób ich prezentowania:
+
+- obrazek i nazwa pozostają zawsze widoczne,
+- badge kategorii i czas nauki trafiają do warunkowo renderowanego `div`,
+- polubienia, status nauki i wszystkie przyciski pozostają zawsze widoczne.
+
+Dodaj przycisk „Pokaż szczegóły” / „Ukryj szczegóły”. Zachowaj strukturę bez `ul`, `ol` i `li`.
+
+## Zadanie 3. Zachowaj wcześniejsze funkcje
+
+Polubienia, reset, status nauki oraz przyciski konsoli z lekcji 06 muszą działać po rozbudowie. Ukrycie szczegółów nie resetuje żadnego stanu.
+
+Poniższy kod stanowi punkt odniesienia do sprawdzenia integracji po samodzielnym wykonaniu zadań. Zachowaj również własne style i pozostałe elementy swojej karty.
+
+### `Technology.jsx` — po połączeniu etapów
+
+```jsx
+import { useState } from "react";
+
+function Technology({ name, category, hours, image }) {
+  const [likes, setLikes] = useState(0);
+  const [isLearning, setIsLearning] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  function toggleDetails() {
+    setVisible(previousVisible => !previousVisible);
+  }
+
+  function showTechnology() {
+    console.log("Technologia: " + name);
+    console.log("Kategoria: " + category);
+    console.log("Czas nauki: " + hours + " godz.");
+  }
+
+  function showName(technologyName) {
+    console.log(technologyName);
+  }
+
+  return (
+    <article className="technology-card">
+      <img
+        src={`${import.meta.env.BASE_URL}images/${image}`}
+        alt={`Logo technologii ${name}`}
+      />
+      <h3>{name}</h3>
+
+      <button onClick={toggleDetails} aria-expanded={visible}>
+        {visible ? "Ukryj szczegóły" : "Pokaż szczegóły"}
+      </button>
+
+      {visible && (
+        <div className="technology-details">
+          <span className="technology-badge">{category}</span>
+          <p>Czas nauki: {hours} godz.</p>
+        </div>
+      )}
+
+      <p>Polubienia: {likes}</p>
+      <button onClick={() => setLikes(previousLikes => previousLikes + 1)}>
+        Lubię
+      </button>
+      <button onClick={() => setLikes(0)}>Resetuj polubienia</button>
+
+      <p>{isLearning ? "Uczę się" : "Jeszcze nie uczę się"}</p>
+      <button onClick={() => setIsLearning(previous => !previous)}>
+        Zmień status nauki
+      </button>
+
+      <button onClick={showTechnology}>Pokaż informacje w konsoli</button>
+      <button onClick={() => showName(name)}>Wypisz nazwę</button>
+    </article>
+  );
+}
+
+export default Technology;
 ```
 
-lub:
+### Kontrola połączenia w `App.jsx`
 
-```javascript
-available: false
+W istniejącym `main`, pod nagłówkiem sekcji, nadal działa:
+
+```jsx
+<div className="technology-grid">
+  {technologies.map((technology) => (
+    <Technology
+      key={technology.id}
+      name={technology.name}
+      category={technology.category}
+      hours={technology.hours}
+      image={technology.image}
+    />
+  ))}
+</div>
 ```
 
-Przekaż tę wartość przez props.
+Pozostaw import `Technology`, tablicę dziewięciu obiektów, `Header`, `Footer` i import stylów. Obrazy nadal znajdują się w `public/images`.
 
-Wyświetl:
+## Zadanie 4. Sprawdź scenariusz użytkownika
 
-```text
-Dostępny
-```
+1. Otwórz aplikację: widzisz dziewięć nazw i obrazków; szczegóły są ukryte.
+2. Rozwiń React: pojawiają się badge „Frontend” i „Czas nauki: 30 godz.”. Inne karty pozostają zwinięte.
+3. Polub React dwa razy i zmień jego status na „Uczę się”.
+4. Ukryj i ponownie pokaż szczegóły React: polubienia nadal wynoszą 2, a status się nie zmienia.
+5. Rozwiń Node.js: ma własny licznik 0 i własny status początkowy.
+6. Zresetuj polubienia React: licznik wraca do 0; jego szczegóły i status pozostają bez zmian.
+7. Sprawdź przyciski konsoli oraz brak ostrzeżeń o `key` i błędów pobierania obrazków.
+8. Odśwież stronę: lokalny stan wraca do wartości początkowych.
 
-lub:
-
-```text
-Niedostępny
-```
-
-w zależności od wartości.
+Stan pozostaje zachowany podczas ukrywania szczegółów, ponieważ komponent `Technology` nadal jest zamontowany. Warunek usuwa tylko wewnętrzny fragment z kategorią i godzinami. Usunięcie całej karty i jej ponowne zamontowanie zainicjalizowałoby stan od nowa.
 
 ---
 
-# Zadanie dodatkowe 2
+# 8. Pytania kontrolne
 
-Dodaj w `ProductCard`:
-
-```javascript
-const [likes, setLikes] = useState(0);
-```
-
-Dodaj przycisk:
-
-```text
-Lubię
-```
-
-Po każdym kliknięciu licznik ma zwiększać się o jeden.
-
-Przykład:
-
-```text
-Laptop
-
-Polubienia: 3
-
-[Lubię]
-[Pokaż szczegóły]
-```
-
-Każdy produkt ma posiadać własny licznik.
+1. Skąd pochodzą `name`, `category`, `hours` i `image`?
+2. Dlaczego `likes`, `isLearning` i `visible` są stanem?
+3. Na którym elemencie ustawiamy `key` w `map()`?
+4. Co oznacza `useState(false)`?
+5. Dlaczego do `onClick` przekazujemy funkcję?
+6. Co oznacza zapis `{visible && (...)}`?
+7. Czym różni się zastosowanie `&&` od `? :` w tej karcie?
+8. Dlaczego przycisk rozwijania musi pozostać poza ukrywanym fragmentem?
+9. Czy otwarcie szczegółów React zmienia stan Node.js?
+10. Dlaczego zwinięcie szczegółów nie resetuje polubień?
+11. Dlaczego nie umieszczamy `useState` w funkcji przekazanej do `map()`?
+12. Jak z nazwy `react.webp` powstaje adres obrazka?
 
 ---
 
-# Zadanie dodatkowe 3
+# 9. Kolejność rozwoju WebTech i następne lekcje
 
-Dodaj przycisk:
+| Lekcja | Nowy element projektu | Co zachowujemy |
+|---|---|---|
+| 05 — `map()` i `key` | Dziewięć kart, obrazki, badge i godziny | Komponenty i props |
+| 06 — zdarzenia | Przyciski wypisujące informacje w konsoli | Karty z obrazkami |
+| 07 — `useState` | Polubienia, reset i status nauki | Kolekcję, dane i obsługę kliknięć |
+| 08 — integracja | Rozwijane szczegóły i dynamiczny napis przycisku | Obrazy i wszystkie wcześniejsze funkcje |
 
-```text
-Resetuj polubienia
-```
+W kolejnych materiałach zachowujemy układ: **teoria i przykład → część A: ćwiczenia utrwalające → część B: wdrożenie do istniejącego WebTech → sprawdzenie działania i pytania kontrolne**. Każdy etap wskazuje stan projektu na wejściu oraz nową funkcję do dodania.
 
-który ustawia:
-
-```text
-likes = 0
-```
-
----
-
-# Pytania kontrolne
-
-1. Skąd pochodzą dane `name`, `category` i `hours`?
-2. Czym różnią się te dane od `visible`?
-3. Co robi `map()`?
-4. Do czego służy `key`?
-5. Co oznacza `useState(false)`?
-6. Co przechowuje `visible`?
-7. Co robi `setVisible()`?
-8. Co oznacza `!visible`?
-9. Co robi `onClick`?
-10. Co oznacza zapis `{visible && (...)}`?
-11. Jak działa operator `warunek ? wartość1 : wartość2`?
-12. Czy każdy komponent `Technology` posiada własny stan?
-13. Czy zmiana stanu jednego `Technology` zmienia stan pozostałych?
-14. Czym różnią się props od state?
-15. Jakie elementy poznane podczas lekcji 1–8 zostały wykorzystane w aplikacji?
-
----
-
-# Podsumowanie lekcji 1–8
-
-Po wykonaniu ośmiu lekcji znamy już podstawowy przepływ danych w React:
-
-```text
-DANE
-│
-│ tablica obiektów
-↓
-App
-│
-│ map()
-↓
-komponent
-│
-│ props
-↓
-Technology
-│
-├── wyświetlanie danych
-│
-├── onClick
-│
-└── useState
-        │
-        ↓
-   zmiana stanu
-        │
-        ↓
-ponowne renderowanie komponentu
-```
-
-Poznaliśmy:
-
-```text
-const / let
-      ↓
-obiekty
-      ↓
-tablice
-      ↓
-Vite
-      ↓
-JSX
-      ↓
-komponenty
-      ↓
-import / export
-      ↓
-props
-      ↓
-tablice obiektów
-      ↓
-map()
-      ↓
-key
-      ↓
-zdarzenia
-      ↓
-onClick
-      ↓
-useState
-      ↓
-renderowanie zależne od stanu
-```
-
-## Następny etap
-
-W kolejnych lekcjach przejdziemy do:
-
-```text
-renderowanie warunkowe
-        ↓
-tablica przechowywana w state
-        ↓
-dodawanie i usuwanie elementów
-        ↓
-formularze
-        ↓
-onChange
-        ↓
-mini CRUD
-        ↓
-useEffect
-        ↓
-API
-```
-
-Dzięki temu przejdziemy od prostych komponentów do aplikacji React, która pozwala użytkownikowi dodawać, modyfikować i usuwać dane.
+Dalszy rozwój może obejmować rozszerzenie renderowania warunkowego, stan w komponencie nadrzędnym, tablicę w stanie, formularze z `onChange` i `onSubmit`, a następnie dodawanie, edycję i usuwanie technologii. Formularze powinny poprzedzać samodzielne zadania wymagające wprowadzania danych. Integracja z API i `useEffect` pojawią się po opanowaniu tych mechanizmów.

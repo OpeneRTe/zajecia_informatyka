@@ -345,7 +345,7 @@ Wynik:
 ["1 (0)", "2 (1)", "3 (2)"]
 ```
 
-drugi parametr funkcji w `map()` to indeks elementu w tablicy. Możemy go wykorzystać np. jako tymczasowy `key` w React.
+Indeks opisuje pozycję w tablicy. Jako `key` nadaje się jedynie do niezmiennej kolekcji, której elementy nie zmieniają kolejności. W WebTech od początku stosujemy stabilne `technology.id`.
 
 Przykład użycia indeksu jako `key` w React:
 
@@ -794,7 +794,7 @@ Dlatego zapisujemy:
 
 `key` pozwala Reactowi identyfikować poszczególne elementy listy.
 
-Każdy element powinien mieć unikalny `key`.
+`key` musi być unikalny wśród elementów tej samej kolekcji i stabilny między renderowaniami. Umieszczamy go na najwyższym elemencie zwracanym z `map()`, np. na `<Technology />`, a nie dopiero wewnątrz komponentu. React nie przekazuje `key` jako zwykłego props; jeśli komponent potrzebuje identyfikatora, przekaż osobno `id`.
 
 Dlatego bardzo dobrym rozwiązaniem jest:
 
@@ -806,91 +806,57 @@ Nie używamy tej samej wartości dla kilku elementów.
 
 ---
 
-# 12. Projekt WebTech – etap 4
+# 12. Obrazki w kartach WebTech
 
-## `App.jsx`
+W zadaniu wykorzystamy pliki w `public/images`. Zapisz tam rzeczywiste obrazy WebP o nazwach zgodnych z polem `image`. Samo wpisanie nazwy do tablicy nie tworzy obrazka. Zmiana rozszerzenia pliku JPG na WebP również nie konwertuje jego formatu.
+
+```text
+WebTech/
+├── public/
+│   └── images/
+│       ├── react.webp
+│       ├── nodejs.webp
+│       ├── mysql.webp
+│       ├── express.webp
+│       ├── mongodb.webp
+│       ├── bootstrap.webp
+│       ├── css.webp
+│       ├── html.webp
+│       └── php.webp
+└── src/
+    ├── App.jsx
+    └── components/
+        └── Technology.jsx
+```
+
+W `Technology.jsx` odbierz props `image`. Dla aplikacji uruchamianej w katalogu głównym serwera odwołanie wygląda tak:
 
 ```jsx
-import Header from "./components/Header";
-import Technology from "./components/Technology";
-import Footer from "./components/Footer";
-
-function App() {
-
-  const technologies = [
-    {
-      id: 1,
-      name: "React",
-      category: "Frontend",
-      hours: 30
-    },
-    {
-      id: 2,
-      name: "Node.js",
-      category: "Backend",
-      hours: 40
-    },
-    {
-      id: 3,
-      name: "MySQL",
-      category: "Baza danych",
-      hours: 20
-    }
-  ];
-
-  return (
-    <>
-      <Header />
-
-      <main>
-        {technologies.map((technology) => (
-          <Technology
-            key={technology.id}
-            name={technology.name}
-            category={technology.category}
-            hours={technology.hours}
-          />
-        ))}
-      </main>
-
-      <Footer />
-    </>
-  );
-}
-
-export default App;
+<img src={`/images/${image}`} alt={`Logo technologii ${name}`} />
 ```
 
-## `Technology.jsx`
+Dla `image: "react.webp"` przeglądarka pobierze `/images/react.webp`. W adresie nie wpisujemy `public` ani ścieżki dyskowej komputera. Nazwa, wielkość liter i rozszerzenie muszą odpowiadać plikowi.
+
+W przykładach WebTech zastosujemy wariant uwzględniający również wdrożenie Vite w podkatalogu:
 
 ```jsx
-function Technology({ name, category, hours }) {
-  return (
-    <section>
-      <h2>{name}</h2>
-      <p>Kategoria: {category}</p>
-      <p>Liczba godzin: {hours}</p>
-    </section>
-  );
-}
-
-export default Technology;
+<img
+  src={`${import.meta.env.BASE_URL}images/${image}`}
+  alt={`Logo technologii ${name}`}
+/>
 ```
 
-Teraz dodanie kolejnej technologii nie wymaga tworzenia kolejnego komponentu ręcznie.
+`import.meta.env.BASE_URL` to bazowy adres aplikacji wynikający z konfiguracji Vite; domyślnie wynosi `/`. Nie dopisujemy dodatkowego ukośnika przed `images`.
 
-Wystarczy dopisać obiekt:
+Alternatywnie obraz umieszczony w `src/assets` importujemy, np. `import reactImage from "./assets/react.webp";` w `App.jsx`, a następnie używamy `src={reactImage}`. Nie łączymy obu sposobów: w tym zadaniu pole `image` zawiera nazwę pliku z `public/images`.
 
-```javascript
-{
-  id: 4,
-  name: "Express",
-  category: "Backend",
-  hours: 25
-}
-```
+Więcej przykładów zawiera materiał [Umieszczanie i wyświetlanie obrazów w React](08_media_w%20React.md). Podstawowe odwołanie do obrazka jest potrzebne już na tej lekcji.
 
 ---
+
+# Część A. Ćwiczenia utrwalające
+
+Poniższe ćwiczenia wykonaj w komponencie ćwiczeniowym; następnie wróć do projektu WebTech.
 
 # Zadanie samodzielne
 
@@ -956,13 +922,120 @@ Dodaj czwartego ucznia wyłącznie przez dodanie nowego obiektu do tablicy.
 
 ---
 
+# Część B. Projekt WebTech – etap 4: karty technologii z obrazkami
+
+To zadanie stanowi punkt wyjścia do lekcji 06–08. Jeśli zostało już wykonane, sprawdź wymagania i kontynuuj rozwijanie tych samych kart.
+
+## Zadanie 1. Dane wejściowe
+
+W `App.jsx` wykorzystaj poniższą tablicę (możesz umieścić ją przed funkcją `App`):
+
+```javascript
+const technologies = [
+  { id: 1, name: "React", category: "Frontend", hours: 30, image: "react.webp" },
+  { id: 2, name: "Node.js", category: "Backend", hours: 40, image: "nodejs.webp" },
+  { id: 3, name: "MySQL", category: "Baza danych", hours: 20, image: "mysql.webp" },
+  { id: 4, name: "Express", category: "Backend", hours: 25, image: "express.webp" },
+  { id: 5, name: "MongoDB", category: "Baza danych", hours: 30, image: "mongodb.webp" },
+  { id: 6, name: "Bootstrap", category: "Frontend", hours: 15, image: "bootstrap.webp" },
+  { id: 7, name: "CSS", category: "Frontend", hours: 20, image: "css.webp" },
+  { id: 8, name: "HTML", category: "Frontend", hours: 10, image: "html.webp" },
+  { id: 9, name: "PHP", category: "Backend", hours: 35, image: "php.webp" }
+];
+```
+
+## Zadanie 2. Renderowanie kolekcji i karta
+
+1. Zastąp ręcznie wpisane karty wywołaniem `technologies.map()`.
+2. Dla każdego obiektu zwróć komponent `Technology`. Na nim ustaw `key={technology.id}`.
+3. Przekaż props: `name`, `category`, `hours` oraz `image`.
+4. Zbuduj kolekcję i karty z elementów takich jak `div`, `article`, `h3`, `p` i `span`, z obrazkiem `img`. Nie używaj `ul`, `ol` ani `li` w JSX tego zadania.
+5. Każda karta ma zawierać obrazek z opisem `alt`, nazwę w `h3`, kategorię jako badge oraz tekst `Czas nauki: 30 godz.` (liczbę pobierz z `hours`).
+6. Zachowaj istniejące komponenty `Header` i `Footer`.
+
+Fragment do umieszczenia wewnątrz `main` w istniejącym `App.jsx`:
+
+```jsx
+<h2>Technologie webowe</h2>
+<div className="technology-grid">
+  {technologies.map((technology) => (
+    <Technology
+      key={technology.id}
+      name={technology.name}
+      category={technology.category}
+      hours={technology.hours}
+      image={technology.image}
+    />
+  ))}
+</div>
+```
+
+Punkt odniesienia dla struktury `Technology.jsx`:
+
+```jsx
+function Technology({ name, category, hours, image }) {
+  return (
+    <article className="technology-card">
+      <img
+        src={`${import.meta.env.BASE_URL}images/${image}`}
+        alt={`Logo technologii ${name}`}
+      />
+      <h3>{name}</h3>
+      <span className="technology-badge">{category}</span>
+      <p>Czas nauki: {hours} godz.</p>
+    </article>
+  );
+}
+
+export default Technology;
+```
+
+## Zadanie 3. Wygląd i sprawdzenie działania
+
+Nadaj kartom odstępy, obramowanie i jednolity rozmiar obrazków. Kategoria ma być wizualną etykietą. Możesz wykorzystać poniższą bazę CSS, dodając ją do pliku stylów importowanego w aplikacji:
+
+```css
+.technology-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.technology-card {
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+}
+
+.technology-card img {
+  display: block;
+  width: 100%;
+  height: 120px;
+  object-fit: contain;
+}
+
+.technology-badge {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: #e0e7ff;
+  color: #312e81;
+}
+```
+
+**Kryteria ukończenia:** widoczne jest dziewięć kart, wszystkie obrazy się wczytują, dane odpowiadają tablicy, a konsola nie zgłasza braku `key`. Sprawdź, czy dodanie obiektu z nowym `id` i istniejącym obrazkiem tworzy kolejną kartę bez zmiany JSX; po próbie przywróć dziewięć obiektów.
+
+Na tym etapie karty prezentują dane. Przyciski dodamy na lekcji 06, a stan na lekcji 07.
+
+---
+
 # Pytania kontrolne
 
 1. Czym jest tablica obiektów?
 2. Co oznacza `technologies[0]`?
 3. Co oznacza `technologies[0].name`?
 4. Do czego służy `map()`?
-5. Ile razy wykona się `map()` dla tablicy zawierającej pięć elementów?
+5. Ile razy `map()` wywoła przekazaną funkcję dla tablicy zawierającej pięć elementów?
 6. Co oznacza parametr `technology` w funkcji przekazanej do `map()`?
 7. Jaka jest różnica między `=> (...)` a `=> {...}`?
 8. Kiedy można pominąć `return`?
@@ -974,4 +1047,7 @@ Dodaj czwartego ucznia wyłącznie przez dodanie nowego obiektu do tablicy.
 14. Czy za pomocą `map()` można generować komponenty?
 15. Do czego służy `key`?
 16. Dlaczego `id` jest dobrym kandydatem na `key`?
+
+
+Źródła: [React — renderowanie kolekcji](https://react.dev/learn/rendering-lists), [Vite — obrazy i zasoby statyczne](https://vite.dev/guide/assets).
 

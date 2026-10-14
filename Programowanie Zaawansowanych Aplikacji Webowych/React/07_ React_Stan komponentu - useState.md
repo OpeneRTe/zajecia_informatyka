@@ -1,5 +1,7 @@
 # **Stan komponentu – `useState`**
 
+Kontynuujemy WebTech z lekcji 05–06: dziewięć kart generowanych przez `map()`, obrazki, etykiety kategorii i przycisk wypisujący dane w konsoli. Najpierw przećwiczymy stan w małych komponentach, potem dodamy go do istniejących kart.
+
 ## Cele lekcji
 
 Po zakończeniu lekcji uczeń:
@@ -449,7 +451,24 @@ Czyli:
 
 ---
 
-# 13. Zadania 
+# 12.1. Zasady aktualizacji stanu
+
+Wywołuj `useState` na najwyższym poziomie funkcji komponentu, przed `return`; nie umieszczaj go w pętli, warunku ani funkcji obsługującej kliknięcie. Każdy komponent `Technology` wywołuje własny hook — nie wywołujemy hooka w funkcji przekazanej do `map()`.
+
+Gdy nowa wartość zależy od poprzedniej, używaj funkcji aktualizującej:
+
+```jsx
+setCount(previousCount => previousCount + 1);
+setVisible(previousVisible => !previousVisible);
+```
+
+React przekazuje do niej poprzednią wartość z kolejki aktualizacji. Pozwala to poprawnie obsłużyć również kilka aktualizacji w jednym zdarzeniu. Wcześniejszy zapis `setCount(count + 1)` wystarcza przy pojedynczym zwiększeniu na kliknięcie; w zadaniach projektowych stosuj wariant z funkcją.
+
+Setter zleca aktualizację na następny render. Odczyt `count` bezpośrednio po `setCount(...)` w tej samej funkcji nadal zwraca wartość z bieżącego renderowania. Nie przypisuj nowej wartości bezpośrednio do zmiennej stanu.
+
+---
+
+# 13. Część A. Ćwiczenia utrwalające
 
 # Zadanie 1
 
@@ -527,57 +546,53 @@ Nieaktywny
 
 ---
 
-# 14. Projekt WebTech – etap 6
+# 14. Część B. Projekt WebTech – etap 6: stan każdej karty
 
-## a) 
+Pracuj na istniejącym komponencie `Technology({ name, category, hours, image })`. Zachowaj tablicę dziewięciu technologii, `map()`, `key={technology.id}`, obrazki, nazwy, badge kategorii, tekst `Czas nauki: … godz.`, style i przycisk z lekcji 06. Nie twórz kolekcji od nowa.
 
-Do komponentu `Technology` dodamy stan licznika zainteresowania.
+## Zadanie 1. Licznik zainteresowania
+
+Zaimportuj `useState` i dodaj w funkcji `Technology`, przed `return`:
 
 ```jsx
-import { useState } from "react";
-
-function Technology({ name, category, hours }) {
-
-  const [likes, setLikes] = useState(0);
-
-  return (
-    <section>
-      <h2>{name}</h2>
-      <p>Kategoria: {category}</p>
-      <p>Liczba godzin: {hours}</p>
-
-      <p>Polubienia: {likes}</p>
-
-      <button onClick={() => setLikes(likes + 1)}>
-        Lubię
-      </button>
-    </section>
-  );
-}
-
-export default Technology;
+const [likes, setLikes] = useState(0);
 ```
 
-Każdy komponent posiada własny stan.
+Wewnątrz istniejącego `article` dopisz:
 
-Jeżeli klikniemy przycisk przy React, zmieni się licznik komponentu React.
+```jsx
+<p>Polubienia: {likes}</p>
+<button onClick={() => setLikes(previousLikes => previousLikes + 1)}>
+  Lubię
+</button>
+```
 
-Pozostałe komponenty zachowują własne wartości.
+Kliknij „Lubię” przy React dwa razy, a przy Node.js raz. Wynik powinien wynosić odpowiednio 2 i 1; pozostałe karty nadal mają 0. Stan należy do konkretnej instancji komponentu.
 
-## b)
+## Zadanie 2. Reset licznika
 
-Dodaj do każdego komponentu przycisk zmieniający stan logiczny `visible` z `true` na `false` i odwrotnie który pokazuje lub ukrywa informacje o technologii.
+Dodaj przycisk „Resetuj polubienia”, który wywołuje `setLikes(0)`. Reset ma dotyczyć tylko wybranej karty.
 
-## c) 
+## Zadanie 3. Status nauki
 
-Dodaj przycisk resetujący licznik zainteresowania do wartości początkowej.
+Dodaj drugi, niezależny stan:
 
-## d)
+```jsx
+const [isLearning, setIsLearning] = useState(false);
+```
 
+Dodaj przycisk „Zmień status nauki”, przełączający wartość przez `setIsLearning(previous => !previous)`. Za pomocą poznanego operatora `? :` wyświetl tekst „Uczę się” albo „Jeszcze nie uczę się”.
+
+W tej lekcji wszystkie dane karty pozostają widoczne. Pokazywanie i ukrywanie całego fragmentu JSX wprowadzimy w lekcji 08.
+
+## Sprawdzenie projektu
+
+1. Polubienia, reset i status działają niezależnie dla każdej z dziewięciu kart.
+2. Zmiana statusu nie zmienia polubień, a reset polubień nie zmienia statusu.
+3. Obrazki i dane z props nadal są wyświetlane; przycisk informacji nadal działa w konsoli.
+4. Po odświeżeniu strony polubienia wracają do 0, a status do wartości początkowej. To oczekiwane: nie wprowadziliśmy jeszcze zapisywania danych.
 
 ---
-
-
 
 # Pytania kontrolne
 
@@ -593,3 +608,5 @@ Dodaj przycisk resetujący licznik zainteresowania do wartości początkowej.
 10. Czy state może przechowywać tekst?
 11. Czy state może przechowywać wartość `true` lub `false`?
 12. Co oznacza `!visible`?
+
+Źródło: [React — useState](https://react.dev/reference/react/useState).

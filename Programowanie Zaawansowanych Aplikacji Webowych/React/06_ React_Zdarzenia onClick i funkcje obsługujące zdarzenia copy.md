@@ -251,65 +251,7 @@ Ten sam komponent zachowuje się inaczej w zależności od otrzymanych props.
 
 ---
 
-# 8. Projekt WebTech – etap 5
-
-Rozbudujemy `Technology.jsx`.
-
-```jsx
-function Technology({ name, category, hours }) {
-
-  function showTechnology() {
-    console.log("Technologia: " + name);
-    console.log("Kategoria: " + category);
-    console.log("Liczba godzin: " + hours);
-  }
-
-  return (
-    <section>
-      <h2>{name}</h2>
-      <p>Kategoria: {category}</p>
-      <p>Liczba godzin: {hours}</p>
-
-      <button onClick={showTechnology}>
-        Pokaż informacje
-      </button>
-    </section>
-  );
-}
-
-export default Technology;
-```
-
-`App.jsx` nadal generuje komponenty za pomocą `map()`:
-
-```jsx
-{technologies.map((technology) => (
-  <Technology
-    key={technology.id}
-    name={technology.name}
-    category={technology.category}
-    hours={technology.hours}
-  />
-))}
-```
-
-Mamy już połączenie:
-
-```text
-tablica
-   ↓
- map()
-   ↓
-komponent
-   ↓
- props
-   ↓
-onClick
-```
-
----
-
-# 9. Przekazywanie funkcji przez props
+# 8. Przekazywanie funkcji przez props
 
 Funkcja również może być przekazana jako props.
 
@@ -373,6 +315,8 @@ To rozwiązanie będzie bardzo ważne w kolejnych aplikacjach.
 
 ---
 
+# 9. Część A. Ćwiczenia utrwalające
+
 # Zadanie samodzielne
 
 Utwórz komponent:
@@ -419,6 +363,42 @@ function selectProduct(name) {
 Przekaż ją do komponentu `Product` przez props.
 
 Przycisk znajdujący się w `Product` powinien uruchomić funkcję znajdującą się w `App`.
+
+---
+
+# 10. Część B. Projekt WebTech – etap 5: reakcja na kliknięcie
+
+Kontynuuj dziewięć kart z lekcji 05. Zachowaj obrazki, badge, godziny, CSS oraz wszystkie props, w tym `image`.
+
+## Zadanie 1. Informacje o wybranej technologii
+
+W istniejącym `Technology` dodaj funkcję:
+
+```jsx
+function showTechnology() {
+  console.log("Technologia: " + name);
+  console.log("Kategoria: " + category);
+  console.log("Czas nauki: " + hours + " godz.");
+}
+```
+
+Wewnątrz istniejącego `article` dodaj przycisk:
+
+```jsx
+<button onClick={showTechnology}>Pokaż informacje w konsoli</button>
+```
+
+Dane muszą pochodzić z props. Nie zastępuj całej karty uproszczonym przykładem z części teoretycznej.
+
+## Zadanie 2. Przekazanie argumentu
+
+Dodaj drugi przycisk „Wypisz nazwę”. W jego obsłudze wykorzystaj funkcję strzałkową, która wywoła funkcję `showName(name)`. Funkcja `showName` ma wypisać otrzymany argument do konsoli.
+
+## Sprawdzenie projektu
+
+Po załadowaniu strony komunikaty nie pojawiają się samoczynnie. Kliknięcie przy React wypisuje dane React, a kliknięcie przy PHP — dane PHP. Dziewięć kart i obrazków nadal jest widocznych.
+
+Na tej lekcji przyciski wypisują dane do konsoli. Zmianę danych widocznych na stronie dodamy z użyciem `useState` w lekcji 07.
 
 ---
 
