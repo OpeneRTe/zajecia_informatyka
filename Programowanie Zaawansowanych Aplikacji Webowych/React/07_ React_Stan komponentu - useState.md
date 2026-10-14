@@ -1,4 +1,4 @@
-# Stan komponentu – `useState`
+# **Stan komponentu – `useState`**
 
 ## Cele lekcji
 
@@ -449,7 +449,87 @@ Czyli:
 
 ---
 
-# 13. Projekt WebTech – etap 6
+# 13. Zadania 
+
+# Zadanie 1
+
+Utwórz komponent:
+
+```text
+Counter
+```
+
+Stan początkowy:
+
+```text
+0
+```
+
+Dodaj trzy przyciski:
+
+```text
++1
+-1
+Reset
+```
+
+Przyciski mają odpowiednio:
+
+- zwiększać licznik,
+- zmniejszać licznik,
+- ustawiać licznik na `0`.
+
+---
+
+# Zadanie 2
+
+Dodaj przyciski:
+
+```text
++5
+-5
+```
+
+oraz:
+
+```text
+Ustaw 100
+```
+
+---
+
+# Zadanie 3
+
+Utwórz stan:
+
+```javascript
+const [active, setActive] = useState(false);
+```
+
+Dodaj przycisk zmieniający:
+
+```text
+false → true
+true → false
+```
+
+Wyświetl aktualny stan jako tekst:
+
+```text
+Aktywny
+```
+
+lub:
+
+```text
+Nieaktywny
+```
+
+---
+
+# 14. Projekt WebTech – etap 6
+
+## a) 
 
 Do komponentu `Technology` dodamy stan licznika zainteresowania.
 
@@ -484,83 +564,20 @@ Jeżeli klikniemy przycisk przy React, zmieni się licznik komponentu React.
 
 Pozostałe komponenty zachowują własne wartości.
 
----
+## b)
 
-# Zadanie samodzielne
+Dodaj do każdego komponentu przycisk zmieniający stan logiczny `visible` z `true` na `false` i odwrotnie który pokazuje lub ukrywa informacje o technologii.
 
-Utwórz komponent:
+## c) 
 
-```text
-Counter
-```
+Dodaj przycisk resetujący licznik zainteresowania do wartości początkowej.
 
-Stan początkowy:
+## d)
 
-```text
-0
-```
-
-Dodaj trzy przyciski:
-
-```text
-+1
--1
-Reset
-```
-
-Przyciski mają odpowiednio:
-
-- zwiększać licznik,
-- zmniejszać licznik,
-- ustawiać licznik na `0`.
 
 ---
 
-# Zadanie dodatkowe
 
-Dodaj przyciski:
-
-```text
-+5
--5
-```
-
-oraz:
-
-```text
-Ustaw 100
-```
-
----
-
-# Zadanie rozszerzone
-
-Utwórz stan:
-
-```javascript
-const [active, setActive] = useState(false);
-```
-
-Dodaj przycisk zmieniający:
-
-```text
-false → true
-true → false
-```
-
-Wyświetl aktualny stan jako tekst:
-
-```text
-Aktywny
-```
-
-lub:
-
-```text
-Nieaktywny
-```
-
----
 
 # Pytania kontrolne
 
