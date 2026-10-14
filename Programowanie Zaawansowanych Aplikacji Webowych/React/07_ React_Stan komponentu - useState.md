@@ -455,14 +455,14 @@ Czyli:
 
 Wywołuj `useState` na najwyższym poziomie funkcji komponentu, przed `return`; nie umieszczaj go w pętli, warunku ani funkcji obsługującej kliknięcie. Każdy komponent `Technology` wywołuje własny hook — nie wywołujemy hooka w funkcji przekazanej do `map()`.
 
-Gdy nowa wartość zależy od poprzedniej, używaj funkcji aktualizującej:
+W naszych ćwiczeniach jedno kliknięcie zmienia wybraną wartość raz. Korzystamy z prostego zapisu:
 
 ```jsx
-setCount(previousCount => previousCount + 1);
-setVisible(previousVisible => !previousVisible);
+setCount(count + 1);
+setVisible(!visible);
 ```
 
-React przekazuje do niej poprzednią wartość z kolejki aktualizacji. Pozwala to poprawnie obsłużyć również kilka aktualizacji w jednym zdarzeniu. Wcześniejszy zapis `setCount(count + 1)` wystarcza przy pojedynczym zwiększeniu na kliknięcie; w zadaniach projektowych stosuj wariant z funkcją.
+Pierwszy zapis zwiększa licznik o 1. Drugi przełącza widoczność: z `true` na `false` albo z `false` na `true`.
 
 Setter zleca aktualizację na następny render. Odczyt `count` bezpośrednio po `setCount(...)` w tej samej funkcji nadal zwraca wartość z bieżącego renderowania. Nie przypisuj nowej wartości bezpośrednio do zmiennej stanu.
 
@@ -562,7 +562,7 @@ Wewnątrz istniejącego `article` dopisz:
 
 ```jsx
 <p>Polubienia: {likes}</p>
-<button onClick={() => setLikes(previousLikes => previousLikes + 1)}>
+<button onClick={() => setLikes(likes + 1)}>
   Lubię
 </button>
 ```
@@ -581,7 +581,7 @@ Dodaj drugi, niezależny stan:
 const [isLearning, setIsLearning] = useState(false);
 ```
 
-Dodaj przycisk „Zmień status nauki”, przełączający wartość przez `setIsLearning(previous => !previous)`. Za pomocą poznanego operatora `? :` wyświetl tekst „Uczę się” albo „Jeszcze nie uczę się”.
+Dodaj przycisk „Zmień status nauki”, przełączający wartość przez `setIsLearning(!isLearning)`. Za pomocą poznanego operatora `? :` wyświetl tekst „Uczę się” albo „Jeszcze nie uczę się”.
 
 W tej lekcji wszystkie dane karty pozostają widoczne. Pokazywanie i ukrywanie całego fragmentu JSX wprowadzimy w lekcji 08.
 

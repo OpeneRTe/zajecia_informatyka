@@ -39,7 +39,7 @@ W funkcji komponentu, przed `return`:
 const [visible, setVisible] = useState(false);
 
 function toggleDetails() {
-  setVisible(previousVisible => !previousVisible);
+  setVisible(!visible);
 }
 ```
 
@@ -109,7 +109,7 @@ function InfoPanel({ title, description }) {
   const [visible, setVisible] = useState(false);
 
   function toggleDetails() {
-    setVisible(previousVisible => !previousVisible);
+    setVisible(!visible);
   }
 
   return (
@@ -205,7 +205,7 @@ function Technology({ name, category, hours, image }) {
   const [visible, setVisible] = useState(false);
 
   function toggleDetails() {
-    setVisible(previousVisible => !previousVisible);
+    setVisible(!visible);
   }
 
   function showTechnology() {
@@ -238,13 +238,13 @@ function Technology({ name, category, hours, image }) {
       )}
 
       <p>Polubienia: {likes}</p>
-      <button onClick={() => setLikes(previousLikes => previousLikes + 1)}>
+      <button onClick={() => setLikes(likes + 1)}>
         Lubię
       </button>
       <button onClick={() => setLikes(0)}>Resetuj polubienia</button>
 
       <p>{isLearning ? "Uczę się" : "Jeszcze nie uczę się"}</p>
-      <button onClick={() => setIsLearning(previous => !previous)}>
+      <button onClick={() => setIsLearning(!isLearning)}>
         Zmień status nauki
       </button>
 
@@ -317,7 +317,3 @@ Stan pozostaje zachowany podczas ukrywania szczegółów, ponieważ komponent `T
 | 06 — zdarzenia | Przyciski wypisujące informacje w konsoli | Karty z obrazkami |
 | 07 — `useState` | Polubienia, reset i status nauki | Kolekcję, dane i obsługę kliknięć |
 | 08 — integracja | Rozwijane szczegóły i dynamiczny napis przycisku | Obrazy i wszystkie wcześniejsze funkcje |
-
-W kolejnych materiałach zachowujemy układ: **teoria i przykład → część A: ćwiczenia utrwalające → część B: wdrożenie do istniejącego WebTech → sprawdzenie działania i pytania kontrolne**. Każdy etap wskazuje stan projektu na wejściu oraz nową funkcję do dodania.
-
-Dalszy rozwój może obejmować rozszerzenie renderowania warunkowego, stan w komponencie nadrzędnym, tablicę w stanie, formularze z `onChange` i `onSubmit`, a następnie dodawanie, edycję i usuwanie technologii. Formularze powinny poprzedzać samodzielne zadania wymagające wprowadzania danych. Integracja z API i `useEffect` pojawią się po opanowaniu tych mechanizmów.
