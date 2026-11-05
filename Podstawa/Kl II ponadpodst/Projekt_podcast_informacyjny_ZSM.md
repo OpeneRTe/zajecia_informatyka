@@ -24,7 +24,7 @@
 
 ---
 
-# CZĘŚĆ I. INSTRUKCJA DLA NAUCZYCIELA
+# CZĘŚĆ I. INSTRUKCJA DLA Lidera Projektu
 
 ## 1. Cele lekcji
 
