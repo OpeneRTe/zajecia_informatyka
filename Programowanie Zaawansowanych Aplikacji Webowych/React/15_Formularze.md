@@ -3,7 +3,7 @@
 ## Nowoczesne formularze w React: form action oraz FormData
 
 
-Wraz z nowszymi wersjami React (18.x i 19), podejście do obsługi formularzy uległo zmianie na korzyść bardziej natywnych mechanizmów przeglądarkowych. 
+Wraz z nowszymi wersjami React (18.x i 19), podejście do obsługi formularzy uległo zmianie na korzyść bardziej natywnych mechanizmów przeglądarkowych.
 
 ## 1. Atrybut action w elemencie <form>
 Tradycyjnie w React używaliśmy zdarzenia onSubmit. Nowoczesny React pozwala przypisać funkcję bezpośrednio do atrybutu action.
